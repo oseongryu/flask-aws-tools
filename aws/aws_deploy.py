@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import boto3
 from dotenv import load_dotenv
 
-import common_utils as utils
+import common.common_utils as utils
 
 load_dotenv()
 region_name = os.getenv("region_name")

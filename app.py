@@ -11,48 +11,16 @@ from flask import (
     send_from_directory,
 )
 
-import aws_deploy
-import aws_was_ip
+from routes.routes_aws import routes_aws
+
+# sys.path.append(os.path.join(os.path.dirname(__file__), "aws"))
+# sys.path.append(os.path.join(os.path.dirname(__file__), "common"))
+
 
 app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
 
 load_dotenv()
-
-
-@app.route("/aws/")
-def index():
-    return render_template("aws/index.html")
-
-
-@app.route("/aws/ip")
-def ip():
-    return render_template("aws/index.html")
-
-
-@app.route("/aws/deploy")
-def deploy():
-    return render_template("aws/deploy.html")
-
-
-@app.route("/aws/run_aws_ip", methods=["POST"])
-def run_aws_ip():
-    try:
-        filter_value = request.json.get("filter_value")
-        arrdev, arrprd = aws_was_ip.run_aws_ip()
-        result = {"dev": arrdev, "prd": arrprd}
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"message": "Script execution failed", "error": str(e)}), 500
-
-
-@app.route("/aws/run_aws_deploy", methods=["POST"])
-def run_aws_deploy():
-    try:
-        search_date = request.json.get("searchDate")
-        result = aws_deploy.run_deploy(search_date)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"message": "Script execution failed", "error": str(e)}), 500
+app.register_blueprint(routes_aws)
 
 
 if __name__ == "__main__":

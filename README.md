@@ -11,6 +11,10 @@ http://127.0.0.1:8091/aws/
 ### flow
 
 ```mermaid
+  info
+```
+
+```mermaid
 flowchart LR
     1["http://localhost:8091/automation/python-exec?id=0"]
     2["http://localhost:8092/automation/python-exec?id=1"]
