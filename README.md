@@ -1,3 +1,12 @@
+### Flask 실행
+
+```bash
+flask run
+
+# 확인
+http://127.0.0.1:8091/aws/
+```
+
 
 ### flow
 

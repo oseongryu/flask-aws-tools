@@ -10,7 +10,6 @@ from flask import (
     request,
     send_from_directory,
 )
-from flask_mysqldb import MySQL
 
 import aws_deploy
 import aws_was_ip
