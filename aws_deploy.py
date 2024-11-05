@@ -1,14 +1,10 @@
-import decimal
-import gzip
-import json
 import os
-import shutil
-import time
-import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import boto3
 from dotenv import load_dotenv
+
+import common_utils as utils
 
 load_dotenv()
 region_name = os.getenv("region_name")
@@ -22,26 +18,10 @@ deployments = response["deployments"]
 ex_targets = ["autoscaling"]
 
 
-def convert_string_to_datetime(date_str):
-    # Convert 'YYYY-MM-DD' string to datetime object
-    return datetime.strptime(date_str, "%Y-%m-%d")
-
-
-def check_any_ex_targets_satisfied(line):
-    return any(condition in line for condition in ex_targets)
-
-
-def dateFormat(time, type=""):
-    if type == "ymd":
-        return time.strftime("%Y-%m-%d")
-    else:
-        return time.strftime("%Y-%m-%d %H:%M:%S")
-
-
 def run_deploy(search_dt):
-    search_date = convert_string_to_datetime(search_dt)
+    search_date = utils.convert_string_to_datetime(search_dt)
 
-    print("--- {} 배포상태 확인 ----".format(dateFormat(search_date, "ymd")))
+    print("--- {} 배포상태 확인 ----".format(utils.dateFormat(search_date, "ymd")))
     deploy_list = []
     for deployment_id in deployments:
 
@@ -53,13 +33,13 @@ def run_deploy(search_dt):
         createTime = info.get("createTime")
         applicationName = info.get("applicationName")
         deploymentGroupName = info.get("deploymentGroupName")
-        displaytime = dateFormat(createTime)
+        displaytime = utils.dateFormat(createTime)
         target_time = createTime
 
         now_timestamp = search_date.timestamp()
         target_timestamp = target_time.timestamp()
         if now_timestamp < target_timestamp:
-            if check_any_ex_targets_satisfied(creator) == False:
+            if utils.check_any_ex_targets_satisfied(creator, ex_targets) == False:
                 print("{}: {}, {}".format(deploymentGroupName, displaytime, status))
                 deploy_list.append({"deploymentGroupName": deploymentGroupName, "displaytime": displaytime, "status": status})
         else:
@@ -68,5 +48,6 @@ def run_deploy(search_dt):
 
 
 if __name__ == "__main__":
-    search_date = convert_string_to_datetime("20241029")
-    run_deploy(search_date)
+    search_date = datetime.now() - timedelta(days=7)
+    search_date_str = utils.dateFormat(search_date, "ymd")
+    run_deploy(search_date_str)

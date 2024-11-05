@@ -10,6 +10,8 @@ import uuid
 import boto3
 from dotenv import load_dotenv
 
+import common_utils as utils
+
 load_dotenv()
 region_name = os.getenv("region_name")
 aws_access_key_id = os.getenv("aws_access_key_id")
@@ -19,18 +21,6 @@ ec2 = boto3.resource("ec2", region_name=f"{region_name}", aws_access_key_id=f"{a
 
 targets = ["-dev", "-prd"]
 ex_targets = ["asg01", "compute", "arn", "bastion", "relay", "git", "api"]
-
-
-def check_all_targets_satisfied(line):
-    return all(condition in line for condition in targets)
-
-
-def check_any_targets_satisfied(line):
-    return any(condition in line for condition in targets)
-
-
-def check_any_ex_targets_satisfied(line):
-    return any(condition in line for condition in ex_targets)
 
 
 def check_instance_exist(ec2):
@@ -52,7 +42,7 @@ def run_aws_ip():
             tags = instance.tags
             for tag in tags:
                 value = tag["Value"]
-                if check_any_ex_targets_satisfied(value) == False and check_any_targets_satisfied(value):
+                if utils.check_any_ex_targets_satisfied(value, ex_targets) == False and utils.check_any_targets_satisfied(value, targets):
                     if "dev" in value:
                         arrdev.append(value + ":" + instance.private_ip_address)
                     elif "prd" in value:
