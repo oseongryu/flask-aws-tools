@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AWS</title>
+    <style>
+        .container {
+            display: flex;
+        }
+        .column {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/aws_function.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="column">
+            <h1>AWS IP 확인</h1>
+            <label for="filter_value">Value:</label>
+            <input type="text" id="filter_value" name="filter_value">
+            <button type="button" id="search_ip">IP 조회</button>
+            <h2>DEV</h2>
+            <ul id="dev_list"></ul>
+            <h2>PRD</h2>
+            <ul id="prd_list"></ul>
+        </div>
+
+        <div class="column">
+            <h1>AWS 배포확인</h1>
+            <div>
+                <label for="date">start Date:</label>
+                <input type="date" id="date" name="date">
+                <button type="button" id="search_deploy">Deploy 조회</button>
+            </div>
+            <div id="results"></div>
+        </div>
+    </div>
+</body>
+</html>
