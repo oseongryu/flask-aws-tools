@@ -2,9 +2,8 @@ import os
 from datetime import datetime, timedelta
 
 import boto3
-from dotenv import load_dotenv
-
 import common.common_utils as utils
+from dotenv import load_dotenv
 
 load_dotenv()
 region_name = os.getenv("region_name")

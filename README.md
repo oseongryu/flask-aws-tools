@@ -7,41 +7,10 @@ flask run
 http://127.0.0.1:8091/aws/
 ```
 
-
 ### flow
 
 ```mermaid
   info
-```
-
-```mermaid
-flowchart LR
-    1["http://localhost:8091/automation/python-exec?id=0"]
-    2["http://localhost:8092/automation/python-exec?id=1"]
-    3["http://localhost:8093/automation/python-exec?id=2"]
-    4["http://localhost:8094/automation/python-exec?id=3"]
-    5["http://localhost:8095/automation/python-exec?id=4"]
-
-    click 1 "http://localhost:8091/automation/python-exec?id=0"
-    click 2 "http://localhost:8092/automation/python-exec?id=1"
-    click 3 "http://localhost:8093/automation/python-exec?id=2"
-    click 4 "http://localhost:8094/automation/python-exec?id=3"
-    click 5 "http://localhost:8095/automation/python-exec?id=4"
-
-```
-
-### ZenUML
-
-```mermaid
-zenuml
-    title user
-    @Actor user
-    @EC2 ec2
-    @Database db
-
-    user->ec2: Hi Bob
-    ec2->db: Hi Alice
-
 ```
 
 ## ER-Diagram
@@ -112,6 +81,8 @@ pip install pillow
 pip install opencv-python
 pip install fake-useragent
 pip install psutil
+pip install requests
+pip install beautifulsoup4
 ```
 
 ## setup
