@@ -2,10 +2,15 @@
 $(document).ready(function() {
     var today = new Date();
     today.setDate(today.getDate() - 5);
-
     var formattedDate = today.toISOString().split('T')[0];
     $('#date').val(formattedDate);
-    $('#albDate').val(formattedDate);
+    $('#albDate').val(new Date().toISOString().split('T')[0]);
+
+    for (let hour = 1; hour < 24; hour++) {
+        $('.hours-list').append(
+            `<label><input type="checkbox" name="hours" value="${hour}"> ${hour}</label>`
+        );
+    }
 
     $('#btn_search_ip').click(function(event) {
         event.preventDefault();

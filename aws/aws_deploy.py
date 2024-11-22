@@ -1,9 +1,12 @@
 import os
+import sys
 from datetime import datetime, timedelta
 
 import boto3
-import common.common_utils as utils
 from dotenv import load_dotenv
+
+sys.path.append("./common")
+import common_utils as utils
 
 load_dotenv()
 region_name = os.getenv("region_name")

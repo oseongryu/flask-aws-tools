@@ -19,13 +19,13 @@ def index():
     return render_template("aws/index.html")
 
 
-@routes_render.route("/list-images")
+@routes_render.route("/automation/list-images")
 def list_images():
     images = [f for f in os.listdir(current_app.IMAGE_DIR) if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))]
-    return render_template("list_images.html", images=images)
+    return render_template("automation/list_images.html", images=images)
 
 
-@routes_render.route("/list-subdir-files")
+@routes_render.route("/automation/list-files")
 def list_subdir_files():
     included_extensions = {".webp", ".png", ".jepg", ".jpg", ".gif"}
     subdir_files = {}
@@ -34,4 +34,4 @@ def list_subdir_files():
         filtered_files = [file for file in files if any(file.endswith(ext) for ext in included_extensions)]
         if len(filtered_files) > 0:
             subdir_files[subdir] = filtered_files
-    return render_template("list_subdir_files.html", subdir_files=subdir_files)
+    return render_template("automation/list_files.html", subdir_files=subdir_files)

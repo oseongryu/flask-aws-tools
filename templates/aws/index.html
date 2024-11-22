@@ -7,15 +7,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/aws/func_aws.js"></script>
     <link rel="stylesheet" href="/static/css/styles_aws.css">
-    <script>
-        $(document).ready(function() {
-            for (let hour = 1; hour < 24; hour++) {
-                $('.hours-list').append(
-                    `<label><input type="checkbox" name="hours" value="${hour}"> ${hour}</label>`
-                );
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="container">

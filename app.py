@@ -3,6 +3,7 @@ import sys
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
+
 from routes.routes_common import routes_common
 from routes.routes_render import routes_render
 
@@ -29,6 +30,7 @@ routes_item = os.getenv("routes_item", "").split(",")
 
 if "shorts" in routes_item:
     from flask_mysqldb import MySQL
+
     from routes.routes_shorts import routes_shorts
 
     app.register_blueprint(routes_shorts)
@@ -40,7 +42,6 @@ if "shorts" in routes_item:
     app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
     mysql = MySQL(app)
     app.mysql = mysql
-
 
 
 if "aws" in routes_item:
