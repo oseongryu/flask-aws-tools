@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Subdirectory Files</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .file-list {
+            flex: 1;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-right: 20px;
+        }
+        .file-preview {
+            flex: 1;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            max-height: 500px;
+        }
+    </style>
+    <script>
+        function previewFile(subdir, filename) {
+            const preview = document.getElementById('file_preview');
+            preview.src = `/view-file?subdir=${subdir}&filename=${filename}`;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="file-list">
+            <h1>Files in Subdirectories</h1>
+            {% for subdir, files in subdir_files.items() %}
+                <h2>{{ subdir }}</h2>
+                <ul>
+                    {% for file in files %}
+                        <li><a href="#" onclick="previewFile('{{ subdir }}', '{{ file }}')">{{ file }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="file-preview">
+            <h2>File Preview</h2>
+            <img id="file_preview" src="" alt="File Preview">
+        </div>
+    </div>
+</body>
+</html>

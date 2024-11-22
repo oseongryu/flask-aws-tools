@@ -30,6 +30,8 @@ def run_deploy(search_dt):
         creator = info.get("creator")
         status = info.get("status")
         createTime = info.get("createTime")
+        # Convert createTime to UTC+9
+        createTime = createTime + timedelta(hours=9)
         applicationName = info.get("applicationName")
         deploymentGroupName = info.get("deploymentGroupName")
         displaytime = utils.dateFormat(createTime)
