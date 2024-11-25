@@ -1,0 +1,109 @@
+{% include 'includes/header.html' %}
+{% include 'includes/global.html' %}
+{% include 'includes/footer.html' %}
+{% include 'includes/modal.html' %}
+
+<script src="/static/js/user/user.viewer.js" ></script>
+<script src="/static/js/automation/func_automation.js" ></script>
+<link rel="stylesheet" href="/static/css/automation/automation.css">
+
+<script>
+
+	$(document).ready(function() {
+		user_event.init_keyboard('#fileTable');
+		user_event.init_mouse('#fileTable');
+		user_event.init_refresh('#btnRefresh2');
+
+		func_automation.selectSettingList();
+		user_modal.initSettingPopup('automation-popup-setting-file-dir');
+
+		$('#btnRefresh1').click(function(e){
+			func_automation.selectSettingList();
+		});
+
+		$('#btnRefresh2').click(function (e) {
+			user_viewer.clean();
+			func_automation.selectLogDirList(func_automation.SCREENSHOT_FILE_DIR, 'dir');
+		});
+
+		$('#btnScreenshotClear').click(function(e){
+			user_file.pythonExec(0, '/Users/oseongryu/git/python-selenium/venv/bin/python3', '/Users/oseongryu/git/python-selenium/selenium/service_remove_screenshot.py');
+		});
+
+		$('#btnExecAll').click(function(e){
+			if(confirm("전체 실행하시겠습니까? (주문제외)\n★ 1.검색 ~ 7.배송지요일변경\n★ 30초 단위로 실행 함")) {
+				user_file.pythonExecAll(0);
+			}
+		});
+
+
+	});
+
+</script>
+
+<body class="hold-transition skin-red layout-top-nav">
+	<div class="wrapper">
+		<div class="content-wrapper">
+			<div class="container">
+				<!-- Content Header -->
+				<!-- <section class="content-header"></section> -->
+				<!-- .Content Header -->
+				<!-- Content Body-->
+				<section class="content">
+					<!-- Content Row -->
+					<div class="row">
+                        <!-- Content -->
+                        <div class="col-md-3">
+							<div class="box box-danger">
+								<div class="box-header with-border">
+									<h3 class="box-title">List</h3>
+									<div class="box-tools pull-right">
+										<input type="text" id="viewOSText" style="width: 0px; display: none">
+										<input type="button" id="btnExecAll" class="btn btn-success" value="전체실행(주문제외)">
+									</div>
+								</div>
+								<div class="box-body" style="height: 300px;">
+									<div id="execView" class="table-responsive" style="width:100%; height:100%; overflow:auto"></div>
+								</div>
+							</div>
+							<div class="box box-danger">
+								<div class="box-header with-border">
+									<h3 class="box-title">실행결과</h3>
+									<div class="box-tools pull-right">
+										<input type="button" id="btnRefresh2" class="btn btn-danger" value="조회">
+									</div>
+								</div>
+								<div class="box-body" style="height: 350px;">
+									<div id="fileView" class="table-responsive" style="width:100%; height:100%; overflow:auto"></div>
+								</div>
+							</div>
+                        </div>
+                        <!-- .Content -->
+						<!-- Content -->
+						<div class="col-md-9">
+							<div class="box box-danger">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">JSON Viewer</h4>
+                                    <div class="box-tools pull-right">
+										<input type="text" id="focusInput" style="width: 50px;">
+										<input type="button" id="btnSetting" class="btn btn-success" value="설정" />
+										<input type="button" id="btnScreenshotClear" class="btn btn-success" value="스샷삭제" />
+                                    </div>
+                                </div>
+								<div class="box-body" style="height: 750px;">
+									<div id='imageView' class='table-responsive' style='width:100%; height:100%; overflow:auto'>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- .Content -->
+					</div>
+					<!-- .Content Row -->
+				</section>
+				<!-- Content Body-->
+			</div>
+		</div>
+	</div>
+</body>
+
+

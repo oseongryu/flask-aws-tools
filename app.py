@@ -2,25 +2,35 @@ import os
 import sys
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request
+from flask import (
+    Flask,
+    Response,
+    jsonify,
+    render_template,
+    request,
+    send_file,
+    send_from_directory,
+)
 
+import config
 from routes.routes_common import routes_common
 from routes.routes_render import routes_render
 
-SCREENSHOT_DIR = os.path.expanduser("~") + "/git/python-selenium/app/fredit/screenshot"
-SHORTS_DIR = os.path.expanduser("~") + "/DEV/shorts/"
-BACKGROUND_DIR = os.path.expanduser("~") + "/DEV/shorts/background"
-IMAGE_DIR = os.path.expanduser("~") + "/git/python-selenium/app/fredit/screenshot/41_simple_card_basic/20241121_012025"
-
+sys.path.append("./common")
+import common_utils as utils
 
 app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_render)
 
-app.SCREENSHOT_DIR = SCREENSHOT_DIR
-app.SHORTS_DIR = SHORTS_DIR
-app.BACKGROUND_DIR = BACKGROUND_DIR
-app.IMAGE_DIR = IMAGE_DIR
+app.SCREENSHOT_DIR = config.SCREENSHOT_DIR
+app.SHORTS_DIR = config.SHORTS_DIR
+app.BACKGROUND_DIR = config.BACKGROUND_DIR
+app.IMAGE_DIR = config.IMAGE_DIR
+app.JS_DIR = config.JS_DIR
+app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
+app.DYNAMO_POPUP_SETTING = config.DYNAMO_POPUP_SETTING
+app.AUTOMATION_SETTING = config.AUTOMATION_SETTING
 
 load_dotenv()
 

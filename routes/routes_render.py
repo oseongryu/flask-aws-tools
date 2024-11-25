@@ -19,6 +19,11 @@ def index():
     return render_template("aws/index.html")
 
 
+@routes_render.route("/automation/")
+def automationIndex():
+    return render_template("automation/index.html")
+
+
 @routes_render.route("/automation/list-images")
 def list_images():
     images = [f for f in os.listdir(current_app.IMAGE_DIR) if f.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))]

@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+.dropdown-menu>li{
+}
+
+div.f5074-layout-left {
+	width: 40%;
+	float: left;
+	box-sizing: border-box;
+}
+
+div.f5074-layout-right {
+	width: 60%;
+	float: right;
+	box-sizing: border-box;
+}
+
+
+.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+.bar { background-color: #337ab7; width:0%; height:20px; border-radius: 3px; }
+.percent { position:absolute; display:inline-block; top:1px; }

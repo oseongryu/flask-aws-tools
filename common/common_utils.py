@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 
@@ -23,3 +24,10 @@ def dateFormat(time, type=""):
         return time.strftime("%Y-%m-%d")
     else:
         return time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def add_user_home_path(value, use_yn):
+    result = value
+    if use_yn:
+        result = os.path.expanduser("~") + value
+    return result
