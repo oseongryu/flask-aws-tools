@@ -3,12 +3,30 @@
 {% include 'includes/footer.html' %}
 {% include 'includes/modal.html' %}
 
-<script src="/static/js/aws/func_aws.js"></script>
+<script src="/static/js/aws/func.aws.js"></script>
 <link rel="stylesheet" href="/static/css/aws/aws.css">
-
+<script src="/static/components/comp-check-list.js" defer></script>
 <script>
-	$(document).ready(function() {
 
+	$(document).ready(function() {
+		var albDate = new Date().toISOString().split('T')[0];
+		$('#albDate').val(albDate);
+		var today = new Date();
+		today.setDate(today.getDate() - 5);
+		var deployDate = today.toISOString().split('T')[0];
+		$('#date').val(deployDate);
+
+		$('#btn_search_ip').click(function(event){
+			func_aws.search_ip();
+		});
+
+		$('#btn_search_deploy').click(function(event) {
+			func_aws.search_deploy();
+		});
+
+		$('#btn_download').click(function(event) {
+			func_aws.search_alb_download();
+		});
 	});
 </script>
 
@@ -63,17 +81,12 @@
                                     </div>
                                 </div>
 								<div class="box-body" style="height: 350px;">
-                                    <form id="hoursForm" >
-										<label><input type="checkbox" id="selectAllCheckbox"> Select All</label>
-                                        <div class="hours-list"></div>
-                                    </form>
-                                    <div id="result" class="result"></div>
-									
+									<comp-check-list id="checkList"></comp-check-list>
+									<div id="result" class="result"></div>
 								</div>
 							</div>
 						</div>
 						<!-- .Content -->
-						 
 					</div>
 					<!-- .Content Row -->
 				</section>

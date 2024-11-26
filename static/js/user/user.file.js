@@ -38,7 +38,7 @@ var user_file = user_file || (function () {
                 async: false,
                 complete: function (response) {
                     // user_modal.success();
-                    if (!user_function.isEmpty(response)) {
+                    if (!user_function.isEmpty(response) && response.status == 200) {
                         result = response.responseText;
                     }
                 },
@@ -61,7 +61,7 @@ var user_file = user_file || (function () {
                 },
                 complete: function (response) {
                     // user_modal.success();
-                    if (!user_function.isEmpty(response)) {
+                    if (!user_function.isEmpty(response) && response.status == 200) {
                         result = response.responseText;
                     }
                 },

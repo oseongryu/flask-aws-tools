@@ -33,14 +33,14 @@ var user_common = user_common || (function(){
                     "fileDir" : fileDir
                 }),
                 complete : function(response) {
-                    if(!user_function.isEmpty(response)) {
+                    if(!user_function.isEmpty(response) && response.status == 200) {
                         const responsePath = response.responseText;
                         $.ajax({
                             url : `${responsePath}`,
                             method : "GET",
                             async: false,
                             complete : function(response) {
-                                if(!user_function.isEmpty(response)) {
+                                if(!user_function.isEmpty(response) && response.status == 200) {
                                     result = response.responseText;
                                 }
                             },
@@ -81,7 +81,7 @@ var user_common = user_common || (function(){
                 },
                 complete : function(response) {
                     // user_modal.success();
-                    if(!user_function.isEmpty(response)) {
+                    if(!user_function.isEmpty(response) && response.status == 200) {
                         result = response.responseText;
                     }
                 },
@@ -106,7 +106,7 @@ var user_common = user_common || (function(){
                 }),
                 complete : function(response) {
                     // user_modal.success();
-                    if(!user_function.isEmpty(response)) {
+                    if(!user_function.isEmpty(response) && response.status == 200) {
                         result = response.responseText;
                     }
                 },
