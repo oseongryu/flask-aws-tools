@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image List</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image List</title>
+</head>
 
-  <body>
-    <h1>List of Images</h1>
-    <ul>
-      {% for image in images %}
-      <li>
-        <a href="{{ url_for('routes_common.serve_image', filename=image) }}">
-          <img src="{{ url_for('routes_common.serve_image', filename=image) }}" alt="{{ image }}"
-            style="width:100px;height:100px;">
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </body>
+<body>
+  <h1>List of Images</h1>
+  <ul>
+    {% for image in images %}
+    <li>
+      <a href="{{ url_for('routes_common.serve_image', filename=image) }}">
+        <img src="{{ url_for('routes_common.serve_image', filename=image) }}" alt="{{ image }}"
+          style="width:100px;height:100px;">
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</body>
 
 </html>

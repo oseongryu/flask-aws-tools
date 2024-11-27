@@ -118,6 +118,27 @@ var user_common = user_common || (function(){
             });
             return result;
         },
+        run_command: async function(){
+            const command = $("#command").val();
+            $.ajax({
+                url: "/run-command",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ command: command }),
+                complete : function(response) {
+                    // user_modal.success();
+                    const result = response.responseJSON;
+                    if(!user_function.isEmpty(response) && response.status == 200) {
+                        $("#output").text(result.output || result.error);
+                    }
+                },
+                exception : function(error) {
+                    console.log(error)
+                    user_modal.error();
+                    result = {}
+                },
+            });
+        }
     }
 })();
 

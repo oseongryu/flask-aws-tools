@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             justify-content: center;
             align-items: flex-start;
         }
+
         .file-list {
             flex: 1;
             padding: 20px;
@@ -17,10 +19,12 @@
             overflow-y: auto;
             margin-right: 20px;
         }
+
         .file-preview {
             flex: 1;
             padding: 20px;
         }
+
         img {
             max-width: 100%;
             max-height: 500px;
@@ -33,17 +37,18 @@
         }
     </script>
 </head>
+
 <body>
     <div class="container">
         <div class="file-list">
             <h1>Files in Subdirectories</h1>
             {% for subdir, files in subdir_files.items() %}
-                <h2>{{ subdir }}</h2>
-                <ul>
-                    {% for file in files %}
-                        <li><a href="#" onclick="previewFile('{{ subdir }}', '{{ file }}')">{{ file }}</a></li>
-                    {% endfor %}
-                </ul>
+            <h2>{{ subdir }}</h2>
+            <ul>
+                {% for file in files %}
+                <li><a href="#" onclick="previewFile('{{ subdir }}', '{{ file }}')">{{ file }}</a></li>
+                {% endfor %}
+            </ul>
             {% endfor %}
         </div>
         <div class="file-preview">
@@ -52,4 +57,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -32,6 +32,11 @@ def list_images():
     return render_template("automation/list_images.html", images=images)
 
 
+@routes_render.route("/common/")
+def html_terminal():
+    return render_template("common/html_terminal.html")
+
+
 @routes_render.route("/automation/list-files")
 def list_subdir_files():
     included_extensions = {".webp", ".png", ".jepg", ".jpg", ".gif"}

