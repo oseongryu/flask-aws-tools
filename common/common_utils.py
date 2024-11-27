@@ -1,4 +1,5 @@
 import os
+import platform
 from datetime import datetime
 
 
@@ -31,3 +32,36 @@ def add_user_home_path(value, use_yn):
     if use_yn:
         result = os.path.expanduser("~") + value
     return result
+
+
+def check():
+    if is_windows():
+        print("This is Windows")
+    elif is_mac():
+        print("This is Mac")
+    elif is_unix():
+        print("This is Unix or Linux")
+    elif is_solaris():
+        print("This is Solaris")
+    else:
+        print("Your OS is not supported!!")
+
+
+def is_windows():
+    os_name = platform.system().lower()
+    return "windows" in os_name
+
+
+def is_mac():
+    os_name = platform.system().lower()
+    return "darwin" in os_name
+
+
+def is_unix():
+    os_name = platform.system().lower()
+    return "linux" in os_name or "aix" in os_name
+
+
+def is_solaris():
+    os_name = platform.system().lower()
+    return "sunos" in os_name

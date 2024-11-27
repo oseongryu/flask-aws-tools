@@ -11,17 +11,19 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
+import config
+
 routes_common = Blueprint("routes_common", __name__)
 
 
 @routes_common.route("/background/<filename>", methods=["GET"])
 def download_background_file(filename):
-    return send_from_directory(current_app.BACKGROUND_DIR, filename)
+    return send_from_directory(config.BACKGROUND_DIR, filename)
 
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
 def download_shorts_file(location, filename):
-    return send_from_directory(current_app.SHORTS_DIR + location, filename)
+    return send_from_directory(config.SHORTS_DIR + location, filename)
 
 
 @routes_common.route("/file/upload-file", methods=["POST"])
@@ -43,19 +45,19 @@ def upload_file():
 
 @routes_common.route("/images/<filename>")
 def serve_image(filename):
-    return send_from_directory(current_app.IMAGE_DIR, filename)
+    return send_from_directory(config.IMAGE_DIR, filename)
 
 
 @routes_common.route("/js/<path>/<filename>")
 def serve_js(path, filename):
-    return send_from_directory(os.path.join(current_app.JS_DIR), filename)
+    return send_from_directory(os.path.join(config.JS_DIR), filename)
 
 
 @routes_common.route("/view-file")
 def view_file():
     subdir = request.args.get("subdir")
     filename = request.args.get("filename")
-    return send_from_directory(os.path.join(current_app.SCREENSHOT_DIR, subdir), filename)
+    return send_from_directory(os.path.join(config.SCREENSHOT_DIR, subdir), filename)
 
 
 @routes_common.route("/load-class-path", methods=["POST"])
@@ -63,9 +65,9 @@ def load_class_path():
     param_map = request.json
     file_dir = param_map.get("fileDir")
     if file_dir == "automation-popup-setting-file-dir":
-        file_dir = current_app.AUTOMATION_POPUP_SETTING
+        file_dir = config.AUTOMATION_POPUP_SETTING
     elif file_dir == "dynamo-popup-setting-file-dir":
-        file_dir = current_app.DYNAMO_POPUP_SETTING
+        file_dir = config.DYNAMO_POPUP_SETTING
     return file_dir
 
 
@@ -88,7 +90,7 @@ def load_type_post():
     type = param_map.get("type")
     fileId = param_map.get("fileId")
     if fileId == "automation-setting-file-dir":
-        fileId = current_app.AUTOMATION_SETTING
+        fileId = config.AUTOMATION_SETTING
 
     return common_service_load_type(fileId, type)
 
