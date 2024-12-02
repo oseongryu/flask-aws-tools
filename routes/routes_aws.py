@@ -14,8 +14,7 @@ routes_aws = Blueprint("routes_aws", __name__)
 def run_aws_ip():
     try:
         filter_value = request.json.get("filter_value")
-        arrdev, arrprd = aws_was_ip.run_aws_ip()
-        result = {"dev": arrdev, "prd": arrprd}
+        result = aws_was_ip.run_aws_ip()
         return jsonify(result)
     except Exception as e:
         return jsonify({"message": "error", "error": str(e)}), 500
@@ -34,7 +33,7 @@ def run_aws_deploy():
 @routes_aws.route("/aws/run-aws-alb", methods=["POST"])
 def run_aws_alb():
     try:
-        selected_hours = request.form.getlist("hours")
-        return jsonify(selected_hours)
+        result = request.form.getlist("hours")
+        return jsonify(result)
     except Exception as e:
         return jsonify({"message": "error", "error": str(e)}), 500

@@ -22,7 +22,7 @@ aws_secret_access_key = os.getenv("aws_secret_access_key")
 ec2 = boto3.resource("ec2", region_name=f"{region_name}", aws_access_key_id=f"{aws_access_key_id}", aws_secret_access_key=f"{aws_secret_access_key}")
 
 targets = ["-dev", "-prd"]
-ex_targets = ["asg01", "compute", "arn", "bastion", "relay", "git", "api"]
+ex_targets = ["asg01", "compute", "arn", "relay", "git01"]
 
 
 def check_instance_exist(ec2):
@@ -34,8 +34,7 @@ def check_instance_exist(ec2):
 
 
 def run_aws_ip():
-    arrdev = []
-    arrprd = []
+    arr_list = []
 
     instances = ec2.instances.filter(Filters=[{"Name": "instance-state-name", "Values": ["running"]}])
 
@@ -45,24 +44,17 @@ def run_aws_ip():
             for tag in tags:
                 value = tag["Value"]
                 if utils.check_any_ex_targets_satisfied(value, ex_targets) == False and utils.check_any_targets_satisfied(value, targets):
-                    if "dev" in value:
-                        arrdev.append(value + ":" + instance.private_ip_address)
-                    elif "prd" in value:
-                        arrprd.append(value + ":" + instance.private_ip_address)
+                    arr_list.append({"name": value, "ip": instance.private_ip_address})
         except Exception as e:
             print(e)
 
     print("--- dev ---")
-    sorted(arrdev)
-    arrdev.sort()
-    for item in arrdev:
+    sorted(arr_list)
+    arr_list.sort()
+    for item in arr_list:
         print(item)
 
-    print("--- prd ---")
-    arrprd.sort()
-    for item in arrprd:
-        print(item)
-    return arrdev, arrprd
+    return arr_list
 
 
 if __name__ == "__main__":

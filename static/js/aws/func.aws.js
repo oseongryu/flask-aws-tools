@@ -13,19 +13,12 @@ var func_aws = func_aws || (function(){
                 contentType: 'application/json',
                 data: JSON.stringify({ filter_value: filterValue }),
                 success: function(data) {
-                    const devList = $('#dev_list');
-                    const prdList = $('#prd_list');
-                    devList.empty();
-                    prdList.empty();
+                    const ipList = $('#ip_list');
+                    ipList.empty();
     
-                    data.dev.forEach(item => {
-                        const li = $('<li></li>').text(item);
-                        devList.append(li);
-                    });
-    
-                    data.prd.forEach(item => {
-                        const li = $('<li></li>').text(item);
-                        prdList.append(li);
+                    data.forEach((item, index) => {
+                        const li = $('<p></p>').text(`${index + 1}. ${item}`);
+                        ipList.append(li);
                     });
                 },
                 error: function(error) {
@@ -43,16 +36,12 @@ var func_aws = func_aws || (function(){
                 data: JSON.stringify({ searchDate: searchDate }),
                 success: function(data) {
                     console.log('data:', data);
-                    const resultsContainer = $('#results');
-                    resultsContainer.empty(); // Clear previous results
+                    const deployList = $('#deploy_list');
+                    deployList.empty();
     
-                    data.forEach(item => {
-                        const resultItem = `
-                            <div class="result-item">
-                                <p>- ${item.displaytime}: ${item.deploymentGroupName} ${item.status}</p>
-                            </div>
-                        `;
-                        resultsContainer.append(resultItem);
+                    data.forEach((item, index) => {
+                        const li = $('<p></p>').text(`${index + 1}. ${item.displaytime}: ${item.deploymentGroupName} ${item.status}`);
+                        deployList.append(li);
                     });
                 },
                 error: function(error) {
@@ -67,8 +56,13 @@ var func_aws = func_aws || (function(){
                 type: 'POST',
                 url: '/aws/run-aws-alb',
                 data: formData,
-                success: function(response) {
-                    $('.result').html(response);
+                success: function(data) {
+                    const checkList = $('#check_list');
+                    checkList.empty();
+                    data.forEach(item => {
+                        const li = $('<p></p>').text(item);
+                        checkList.append(li);
+                    });
                 },
                 error: function(error) {
                     console.error('Error:', error);
