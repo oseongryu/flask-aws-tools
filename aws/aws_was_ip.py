@@ -48,13 +48,12 @@ def run_aws_ip():
         except Exception as e:
             print(e)
 
-    print("--- dev ---")
-    sorted(arr_list)
-    arr_list.sort()
-    for item in arr_list:
+    print("--- list ---")
+    sorted_list = sorted(arr_list, key=lambda x: x["name"])
+    for item in sorted_list:
         print(item)
 
-    return arr_list
+    return sorted_list
 
 
 if __name__ == "__main__":

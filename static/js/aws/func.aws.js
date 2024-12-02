@@ -17,7 +17,7 @@ var func_aws = func_aws || (function(){
                     ipList.empty();
     
                     data.forEach((item, index) => {
-                        const li = $('<p></p>').text(`${index + 1}. ${item}`);
+                        const li = $('<p></p>').text(`${index + 1}. ${item.name}: ${item.ip}`);
                         ipList.append(li);
                     });
                 },
