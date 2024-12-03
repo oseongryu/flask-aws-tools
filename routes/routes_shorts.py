@@ -1,3 +1,5 @@
+from flask import Blueprint, current_app, jsonify, request
+
 from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
 from app_service import (
     delete_story,
@@ -11,7 +13,6 @@ from app_service import (
     select_table,
     update_origin_info,
 )
-from flask import Blueprint, current_app, jsonify, request
 
 routes_shorts = Blueprint("routes_shorts", __name__)
 
