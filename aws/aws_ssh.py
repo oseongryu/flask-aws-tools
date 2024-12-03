@@ -1,7 +1,11 @@
 import os
 import sys
 
-import pexpect
+if sys.platform == "win32":
+    import wexpect as pexpect
+else:
+    import pexpect
+
 from dotenv import load_dotenv
 
 load_dotenv()
