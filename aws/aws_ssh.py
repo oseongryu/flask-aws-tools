@@ -24,9 +24,9 @@ qa_password = os.getenv("QA_WAS_PASSWORD")
 
 def ssh_command(user, host, proxy_user=None, proxy_host=None):
     if proxy_user and proxy_host:
-        return f"ssh -o ProxyJump={proxy_user}@{proxy_host} {user}@{host}"
+        return f"ssh -o StrictHostKeyChecking=no -o ProxyJump={proxy_user}@{proxy_host} {user}@{host}"
     else:
-        return f"ssh {user}@{host}"
+        return f"ssh -o StrictHostKeyChecking=no {user}@{host}"
 
 
 def wait_password(user, host):
