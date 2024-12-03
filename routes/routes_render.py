@@ -16,13 +16,18 @@ import config
 routes_render = Blueprint("routes_render", __name__)
 
 
-@routes_render.route("/aws/")
+@routes_render.route("/")
 def index():
     return render_template("aws/index.html")
 
 
+@routes_render.route("/aws/")
+def aws_index():
+    return render_template("aws/index.html")
+
+
 @routes_render.route("/automation/")
-def automationIndex():
+def automation_index():
     return render_template("automation/index.html")
 
 
