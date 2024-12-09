@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, jsonify, request
 
 from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
 from app_service import (
+    delete_origin_info,
     delete_story,
     insert_origin_info,
     insert_story,
@@ -51,6 +52,19 @@ def query_save_origin_info():
         else:
             storyId = max_origin_info_seq()
             insert_origin_info(storyId, content, originContent, originTitle, originUrl, title)
+        return jsonify({}), 200
+    except Exception as e:
+        return jsonify(message=f"Error: {str(e)}"), 500
+
+
+@routes_shorts.route("/origin-info/delete-origin-info", methods=["POST"])
+def query_delete_origin_info():
+    try:
+        request_data = request.get_json()
+        storyId = request_data.get("storyId")
+        if storyId and len(select_origin_info(storyId)) == 1:
+            delete_story(storyId)
+            delete_origin_info(storyId)
         return jsonify({}), 200
     except Exception as e:
         return jsonify(message=f"Error: {str(e)}"), 500

@@ -1,5 +1,6 @@
-from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
 from flask import Blueprint, current_app, jsonify, request
+
+from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
 
 
 def select_origin_info(storyId):
@@ -54,6 +55,14 @@ def update_origin_info(storyId, content, originContent, originTitle, originUrl, 
     cur.execute(
         "UPDATE origin_info SET modified_by=%s, modified_date= SYSDATE(), content=%s, origin_content=%s, origin_title=%s, origin_url=%s, title=%s WHERE story_id= %s", (user, content, originContent, originTitle, originUrl, title, storyId)
     )
+    current_app.mysql.connection.commit()
+    cur.close()
+    return {"msg": "success"}
+
+
+def delete_origin_info(storyId):
+    cur = current_app.mysql.connection.cursor()
+    cur.execute("DELETE FROM origin_info WHERE story_id = %s", (storyId,))
     current_app.mysql.connection.commit()
     cur.close()
     return {"msg": "success"}
