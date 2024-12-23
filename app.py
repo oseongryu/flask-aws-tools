@@ -37,6 +37,7 @@ load_dotenv()
 # Load and parse the array from the .env file
 routes_items = os.getenv("routes_item", "").split(",")
 
+db_name = 'sqlite'
 for routes_item in routes_items:
     if "shorts" in routes_item:
         from flask_mysqldb import MySQL
@@ -45,13 +46,20 @@ for routes_item in routes_items:
 
         app.register_blueprint(routes_shorts)
 
-        app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
-        app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT"))
-        app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
-        app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
-        app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
-        mysql = MySQL(app)
-        app.mysql = mysql
+        if(db_name == 'mysql'):
+            app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
+            app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT"))
+            app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
+            app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
+            app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
+            mysql = MySQL(app)
+            db = mysql.connection
+            app.db = db
+        else:
+            import sqlite3
+            DATABASE = os.getenv('SQLITE_DB_PATH', 'database.db')
+            db = sqlite3.connect(DATABASE, check_same_thread=False)
+            app.db = db
     elif "aws" in routes_item:
         from routes.routes_aws import routes_aws
 

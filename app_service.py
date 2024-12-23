@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, current_app, jsonify, request
 
 from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
@@ -38,55 +40,61 @@ def select_table(table_name, class_name):
 
 
 def insert_origin_info(storyId, content, originContent, originTitle, originUrl, title):
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     user = "admin"
+    created_date = modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     cur.execute(
-        "INSERT INTO origin_info (story_id, content, origin_content, origin_title, origin_url, title, created_by, created_date, modified_by, modified_date) VALUES (%s, %s, %s, %s, %s, %s, %s, SYSDATE(), %s, SYSDATE())",
-        (storyId, content, originContent, originTitle, originUrl, title, user, user),
+        "INSERT INTO origin_info (story_id, content, origin_content, origin_title, origin_url, title, created_by, created_date, modified_by, modified_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (storyId, content, originContent, originTitle, originUrl, title, user, created_date, user, modified_date),
     )
-    current_app.mysql.connection.commit()
+    current_app.db.commit()
     cur.close()
     return {"msg": "success"}
 
 
 def update_origin_info(storyId, content, originContent, originTitle, originUrl, title):
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     user = "admin"
+    modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cur.execute(
-        "UPDATE origin_info SET modified_by=%s, modified_date= SYSDATE(), content=%s, origin_content=%s, origin_title=%s, origin_url=%s, title=%s WHERE story_id= %s", (user, content, originContent, originTitle, originUrl, title, storyId)
+        "UPDATE origin_info SET modified_by=?, modified_date=?, content=?, origin_content=?, origin_title=?, origin_url=?, title=? WHERE story_id=?", 
+        (user, modified_date, content, originContent, originTitle, originUrl, title, storyId)
     )
-    current_app.mysql.connection.commit()
+    current_app.db.commit()
     cur.close()
     return {"msg": "success"}
 
 
 def delete_origin_info(storyId):
-    cur = current_app.mysql.connection.cursor()
-    cur.execute("DELETE FROM origin_info WHERE story_id = %s", (storyId,))
-    current_app.mysql.connection.commit()
+    cur = current_app.db.cursor()
+    cur.execute("DELETE FROM origin_info WHERE story_id = ?", (storyId,))
+    current_app.db.commit()
     cur.close()
     return {"msg": "success"}
 
 
 def insert_story(storyId, seq, idx, storyItem):
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     user = "admin"
     height = storyItem.get("height")
     no = idx
-    soundPath = idx + ".mp3"
-    imagePath = idx + ".webp"
+    soundPath = f"{idx}.mp3"
+    imagePath = f"{idx}.webp"
     content = storyItem.get("content")
+    created_date = modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     cur.execute(
-        "INSERT INTO story (story_id, id, height, no, sound_path, image_path, content, created_by, created_date, modified_by, modified_date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, SYSDATE(), %s, SYSDATE())",
-        (storyId, seq, height, no, soundPath, imagePath, content, user, user),
+        "INSERT INTO story (story_id, id, height, no, sound_path, image_path, content, created_by, created_date, modified_by, modified_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (storyId, seq, height, no, soundPath, imagePath, content, user, created_date, user, modified_date),
     )
-    current_app.mysql.connection.commit()
+    current_app.db.commit()
     cur.close()
     return {"msg": "success"}
 
 
 def max_origin_info_seq():
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     cur.execute("SELECT MAX(story_id) seq FROM origin_info")
     rows = cur.fetchall()
     description = cur.description
@@ -103,7 +111,7 @@ def max_origin_info_seq():
 
 
 def max_story_seq(storyId):
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     cur.execute("SELECT MAX(id) seq FROM story")
     rows = cur.fetchall()
     description = cur.description
@@ -120,25 +128,25 @@ def max_story_seq(storyId):
 
 
 # def delete_origin_info(storyId):
-#     cur = current_app.mysql.connection.cursor()
+#     cur = current_app.db.cursor()
 #     delete_query = f"DELETE FROM origin_info WHERE = {storyId}"
 #     cur.execute(delete_query)
-#     current_app.mysql.connection.commit()
+#     current_app.db.commit()
 #     cur.close()
 #     return {'msg': 'success'}
 
 
 def delete_story(storyId):
-    cur = current_app.mysql.connection.cursor()
-    cur.execute("DELETE FROM story WHERE story_id = %s", (storyId,))
-    current_app.mysql.connection.commit()
+    cur = current_app.db.cursor()
+    cur.execute("DELETE FROM story WHERE story_id = ?", (storyId,))
+    current_app.db.commit()
     cur.close()
     return {"msg": "success"}
 
 
 def fetch_and_transform(query, class_name, story_id):
     transform_class = globals()[class_name]
-    cur = current_app.mysql.connection.cursor()
+    cur = current_app.db.cursor()
     cur.execute(query)
     rows = cur.fetchall()
     description = cur.description
