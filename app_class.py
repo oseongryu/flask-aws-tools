@@ -23,10 +23,10 @@ class OriginInfoClass:
             origin_content=row.get("origin_content"),
             title=row.get("title"),
             content=row.get("content"),
-            back_sound_path=f"{base_url}/pythonapi/background/background-3.mp3",
+            back_sound_path=f"{base_url}/background/background-3.mp3",
             story_id=story_id,
             story_items=story_info_func(story_id),
-            preview_image_path=f"{base_url}/pythonapi/shorts/{story_id}/1.webp",
+            preview_image_path=f"{base_url}/shorts/{story_id}/1.webp",
         )
         # fmt: on
 
@@ -45,11 +45,11 @@ class OriginInfoClass:
 
 
 class StoryClass:
-    def __init__(self, seq, height, no, sound_path, image_path, prompt, content):
+    def __init__(self, seq, height, no, sound_paths, image_path, prompt, content):
         self.seq = seq
         self.height = height
         self.no = no
-        self.soundPath = sound_path
+        self.soundPaths = sound_paths
         self.imagePath = image_path
         self.prompt = prompt
         self.content = content
@@ -58,14 +58,17 @@ class StoryClass:
     def from_row(cls, row_story, story_id):
         base_url = os.getenv("BASE_URL")
         image_path = row_story.get("image_path")
-        sound_path = row_story.get("sound_path")
+        no = row_story.get("no")
+        content_list = row_story.get("content").split("\n")
+        soundPaths = [(f"{base_url}/shorts/" + str(story_id) + "/" + f"{str(no)}{str(index + 1)}.mp3") for index, _ in enumerate(content_list)]
+
         # fmt: off
         return cls(
             seq=row_story.get("seq"),
             height=row_story.get("height"),
             no=row_story.get("no"),
-            sound_path=f"{base_url}/pythonapi/shorts/{story_id}/{sound_path}",
-            image_path=f"{base_url}/pythonapi/shorts/{story_id}/{image_path}",
+            sound_paths=soundPaths,
+            image_path=f"{base_url}/shorts/{story_id}/{image_path}",
             prompt=row_story.get("prompt"),
             content=row_story.get("content"),
         )
@@ -76,7 +79,7 @@ class StoryClass:
             "seq": self.seq,
             "height": self.height,
             "no": self.no,
-            "soundPath": self.soundPath,
+            "soundPaths": self.soundPaths,
             "imagePath": self.imagePath,
             "prompt": self.prompt,
             "content": self.content,

@@ -31,22 +31,22 @@ app.JS_DIR = config.JS_DIR
 app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
 app.DYNAMO_POPUP_SETTING = config.DYNAMO_POPUP_SETTING
 app.AUTOMATION_SETTING = config.AUTOMATION_SETTING
-
 load_dotenv()
 
 # Load and parse the array from the .env file
 routes_items = os.getenv("routes_item", "").split(",")
 
-db_name = 'sqlite'
+db_name = "sqlite"
 for routes_item in routes_items:
     if "shorts" in routes_item:
-        from flask_mysqldb import MySQL
 
         from routes.routes_shorts import routes_shorts
 
         app.register_blueprint(routes_shorts)
 
-        if(db_name == 'mysql'):
+        if db_name == "mysql":
+            from flask_mysqldb import MySQL
+
             app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
             app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT"))
             app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
@@ -57,7 +57,8 @@ for routes_item in routes_items:
             app.db = db
         else:
             import sqlite3
-            DATABASE = os.getenv('SQLITE_DB_PATH', 'database.db')
+
+            DATABASE = os.getenv("SQLITE_DB_PATH", "database.db")
             db = sqlite3.connect(DATABASE, check_same_thread=False)
             app.db = db
     elif "aws" in routes_item:

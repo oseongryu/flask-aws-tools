@@ -11,7 +11,7 @@ jdk
 .DS_Store
 geckodriver
 secrets_prd.json
-
+*.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
