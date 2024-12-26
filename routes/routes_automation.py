@@ -37,9 +37,9 @@ routes_automation = Blueprint("routes_automation", __name__)
 #         return jsonify({"message": "Script execution failed", "error": str(e)}), 500
 
 
-@routes_automation.route("/automation/python-exec", methods=["GET", "POST"])
+@routes_automation.route("/api/automation/python-exec", methods=["GET", "POST"])
 def python_exec():
-    script_id = request.args.get("id")
+    script_id = request.args.get("id") or request.form.get("id")
     python_path = request.args.get("pythonPath")
     python_env_path = request.args.get("pythonEnvPath")
     if python_env_path == None:

@@ -58,7 +58,7 @@ for routes_item in routes_items:
         else:
             import sqlite3
 
-            DATABASE = os.getenv("SQLITE_DB_PATH", "database.db")
+            DATABASE = os.getenv("SQLITE_DB_PATH", "/shorts/database/test.db")
             db = sqlite3.connect(DATABASE, check_same_thread=False)
             app.db = db
     elif "aws" in routes_item:

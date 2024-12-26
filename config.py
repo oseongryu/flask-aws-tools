@@ -3,7 +3,7 @@ import sys
 sys.path.append("./common")
 import common_utils as utils
 
-userHomeUseYn = False
+userHomeUseYn = True
 
 SCREENSHOT_DIR = utils.add_user_home_path("/git/python-selenium/app/fredit/screenshot", userHomeUseYn)
 SHORTS_DIR = utils.add_user_home_path("/DEV/shorts/", userHomeUseYn)

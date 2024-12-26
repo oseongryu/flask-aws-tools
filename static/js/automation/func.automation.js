@@ -48,13 +48,13 @@ var func_automation = func_automation || (function(){
                 }
             }
         },
-        selectLogDirList: async function(fileDir, type) {
+        selectLogDirList:async function(fileDir, type) {
             console.dir('selectLogDirList')
             var viewName = "file";
             var viewNameId = `#${viewName}View`;
             var viewTable = `${viewName}Table`;
             var viewTableId = `#${viewTable}`;
-            var result = await user_file.fileList(fileDir, type);
+            var result =await user_file.fileList(fileDir, type);
 
             if (user_function.isEmpty(result)) {
                 $(viewNameId).html("<table id='execTable' class='table no-margin'></table>");
@@ -120,12 +120,12 @@ var func_automation = func_automation || (function(){
 
                 var imgDir;
                 if(localIp == null) {
-                    imgDir = '/loadType/' + fileCustomDir;
+                    imgDir = '/load-type/' + fileCustomDir;
                 } else {
-                    imgDir = localIp +"/loadType/" + fileCustomDir
+                    imgDir = localIp +"/load-type/" + fileCustomDir
                 }
                 if( user_modal.val("image.skip") < rowIdx) {
-                    $(".grid").append(`<div class='grid-item'><img src='loadType/${fileCustomDir}' data-original='${imgDir}' /></div>`);
+                    $(".grid").append(`<div class='grid-item'><img src='/load-type/${fileCustomDir}' data-original='${imgDir}' /></div>`);
                 }
             }
             user_viewer.grid();
