@@ -43,6 +43,14 @@ flask run
 http://127.0.0.1:8091/aws/
 ```
 
+### docker-compose.yml
+
+```bash
+curl -o docker-compose.yml https://raw.githubusercontent.com/oseongryu/docker-composes/refs/heads/main/automation/docker-compose.yml
+curl -o Dockerfile https://raw.githubusercontent.com/oseongryu/docker-composes/refs/heads/main/automation/desktop/Dockerfile
+docker-compose up --build -d desktop
+```
+
 ## exec file (windows)
 
 ```bash
