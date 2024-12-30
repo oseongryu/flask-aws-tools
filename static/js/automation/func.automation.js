@@ -9,7 +9,7 @@ var func_automation = func_automation || (function(){
         },
         gridRowClick: function (fileCustomDir) {
             user_viewer.clean();
-            func_automation.selectSceenshotList(func_automation.SCREENSHOT_FILE_DIR+ fileCustomDir, 'fileName');
+            func_automation.selectScreenshotList(func_automation.SCREENSHOT_FILE_DIR+ fileCustomDir, 'fileName');
         },
         selectSettingList: async function(fileDir, type) {
             console.dir('selectSettingList');
@@ -48,8 +48,8 @@ var func_automation = func_automation || (function(){
                 }
             }
         },
-        selectLogDirList:async function(fileDir, type) {
-            console.dir('selectLogDirList')
+        selectResultList:async function(fileDir, type) {
+            console.dir('selectResultList')
             var viewName = "file";
             var viewNameId = `#${viewName}View`;
             var viewTable = `${viewName}Table`;
@@ -105,12 +105,12 @@ var func_automation = func_automation || (function(){
                 $($(viewTableId).prop('rows')[1]).removeClass('before_searched');
                 $($(viewTableId).prop('rows')[1]).addClass('selected').siblings().removeClass('selected');
                 // 처음 refresh이후 선택
-                var details_json2=$($(viewTableId).prop('rows')[1]).find('td:nth-child(4)').find('div').html();
-                if (!user_function.isEmpty(details_json2)) clickTableRow2(details_json2);
+                var details_json=$($(viewTableId).prop('rows')[1]).find('td:nth-child(4)').find('div').html();
+                if (!user_function.isEmpty(details_json)) func_automation.gridRowClick(details_json);
             }
         },
-        selectSceenshotList: async function(fileDir, type) {
-            console.dir('selectSceenshotList')
+        selectScreenshotList: async function(fileDir, type) {
+            console.dir('selectScreenshotList')
             var result = await user_file.fileList(fileDir, type);
             var resultList = JSON.parse(result);
             for (var rowIdx = 0; rowIdx < resultList.length; rowIdx++) {
@@ -130,6 +130,7 @@ var func_automation = func_automation || (function(){
             }
             user_viewer.grid();
         },
+
     }
 })();
 

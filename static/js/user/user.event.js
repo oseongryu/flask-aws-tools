@@ -23,10 +23,8 @@ var user_event = user_event || (function(){
                         if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
                             $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                             $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                            var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(5)').find('div').html();
-                            var details_json2=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                            if(checkUrl()) clickTableRow(details_json);
-                            else clickTableRow2(details_json2);
+                            var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
+                            func_automation.gridRowClick(details_json);
                             $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                             break;
                         }
@@ -38,10 +36,8 @@ var user_event = user_event || (function(){
                         if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
                             $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                             $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                            var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(5)').find('div').html();
-                            var details_json2=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                            if(checkUrl()) clickTableRow(details_json);
-                            else clickTableRow2(details_json2);
+                            var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
+                            func_automation.gridRowClick(details_json);
                             $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                             break;
                         }
@@ -61,10 +57,8 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
                                 $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
 
                                 $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
@@ -87,10 +81,8 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
                                 $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
 
                                 $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
@@ -112,10 +104,9 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
                                 $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json =$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2 =$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json =$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
+
                                 $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
                             }
@@ -128,10 +119,8 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
                                 $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json = $($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2 = $($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json = $($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
 
                                 $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
@@ -199,10 +188,8 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
                                 $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                 if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
 
                                 $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
@@ -220,10 +207,8 @@ var user_event = user_event || (function(){
                             if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
                                 $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(5)').find('div').html();
-                                var details_json2=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                if(checkUrl()) clickTableRow(details_json);
-                                else clickTableRow2(details_json2);
+                                var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
+                                func_automation.gridRowClick(details_json);
 
                                 $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;

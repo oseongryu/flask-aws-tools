@@ -52,7 +52,7 @@ var user_file = user_file || (function () {
             console.dir('fileList');
             var result = {}
             $.ajax({
-                url: `/api/file/select-file-list`,
+                url: `/file/file-list`,
                 method: "POST",
                 async: false,
                 data: {

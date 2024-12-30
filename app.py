@@ -25,11 +25,9 @@ app.register_blueprint(routes_render)
 app.SCREENSHOT_DIR = config.SCREENSHOT_DIR
 app.SHORTS_DIR = config.SHORTS_DIR
 app.BACKGROUND_DIR = config.BACKGROUND_DIR
-app.IMAGE_DIR = config.IMAGE_DIR
 app.JS_DIR = config.JS_DIR
-app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
-app.DYNAMO_POPUP_SETTING = config.DYNAMO_POPUP_SETTING
 app.AUTOMATION_SETTING = config.AUTOMATION_SETTING
+app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
 load_dotenv()
 
 # Load and parse the array from the .env file

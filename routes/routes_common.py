@@ -46,7 +46,7 @@ def upload_file():
         return jsonify(message="File successfully uploaded"), 200
 
 
-@routes_common.route("/api/file/select-file-list", methods=["POST"])
+@routes_common.route("/file/file-list", methods=["POST"])
 def select_file_list():
     file_download_dir = request.form.get("fileDownloadDir")
     file_type = request.form.get("type")
@@ -77,26 +77,12 @@ def select_file_list():
     return response_dicts, 200
 
 
-@routes_common.route("/js/<path>/<filename>")
-def serve_js(path, filename):
-    return send_from_directory(os.path.join(config.JS_DIR), filename)
-
-
-@routes_common.route("/view-file")
-def view_file():
-    subdir = request.args.get("subdir")
-    filename = request.args.get("filename")
-    return send_from_directory(os.path.join(config.SCREENSHOT_DIR, subdir), filename)
-
-
 @routes_common.route("/load-class-path", methods=["POST"])
 def load_class_path():
     param_map = request.json
     file_dir = param_map.get("fileDir")
     if file_dir == "automation-popup-setting-file-dir":
         file_dir = config.AUTOMATION_POPUP_SETTING
-    elif file_dir == "dynamo-popup-setting-file-dir":
-        file_dir = config.DYNAMO_POPUP_SETTING
     return file_dir
 
 
@@ -114,7 +100,6 @@ def load_type_depth(depth1, depth2, fileId):
 @routes_common.route("/load-type", methods=["POST"])
 def load_type_post():
     # response.headers["Content-Type"] = "application/octet-stream"
-
     param_map = request.json
     type = param_map.get("type")
     fileId = param_map.get("fileId")
@@ -138,7 +123,18 @@ def common_service_load_type(fileId, type):
     if type == "project":
         return send_file(fileId, as_attachment=True)
     else:
-        return send_file(os.path.expanduser("~") + "/git/python-selenium/app/fredit/screenshot/" + fileId + "/" + type, as_attachment=True)
+        return send_file(config.SCREENSHOT_DIR + "/" + fileId + "/" + type, as_attachment=True)
+
+
+def list_subdir_files(filePath):
+    included_extensions = {".webp", ".png", ".jepg", ".jpg", ".gif"}
+    subdir_files = {}
+    for root, dirs, files in os.walk(filePath):
+        subdir = os.path.relpath(root, filePath)
+        filtered_files = [file for file in files if any(file.endswith(ext) for ext in included_extensions)]
+        if len(filtered_files) > 0:
+            subdir_files[subdir] = filtered_files
+    return subdir_files
 
 
 def sub_full_path_list(original_file_dir, file_dir, result, type):
