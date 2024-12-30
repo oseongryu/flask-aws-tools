@@ -12,9 +12,9 @@ from flask import (
     send_from_directory,
 )
 from werkzeug.utils import secure_filename
-from app_class import FileModel
 
 import config
+from app_class import FileModel
 
 routes_common = Blueprint("routes_common", __name__)
 
@@ -58,15 +58,23 @@ def select_file_list():
     subdirs = []
     sub_full_path_list(file_download_dir, file_download_dir, subdirs, file_type)
 
-    response_objects = [FileModel(file_id=i, file_name=subdir.file_name, file_path=subdir.file_path, file_dir=subdir.file_dir, file_parent_dir=subdir.file_parent_dir, file_custom_dir=subdir.file_custom_dir, depth1_dir=subdir.depth1_dir, depth2_dir=subdir.depth2_dir, depth3_dir=subdir.depth3_dir) for i, subdir in enumerate(subdirs)]
+    response_objects = [
+        FileModel(
+            file_id=index,
+            file_name=subdir.file_name,
+            file_path=subdir.file_path,
+            file_dir=subdir.file_dir,
+            file_parent_dir=subdir.file_parent_dir,
+            file_custom_dir=subdir.file_custom_dir,
+            depth1_dir=subdir.depth1_dir,
+            depth2_dir=subdir.depth2_dir,
+            depth3_dir=subdir.depth3_dir,
+        )
+        for index, subdir in enumerate(subdirs)
+    ]
     response_objects.sort(key=lambda x: x.file_dir)
     response_dicts = [response.to_dict() for response in response_objects]
     return response_dicts, 200
-
-
-@routes_common.route("/images/<filename>")
-def serve_image(filename):
-    return send_from_directory(config.IMAGE_DIR, filename)
 
 
 @routes_common.route("/js/<path>/<filename>")
@@ -143,7 +151,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                 continue
             elif os.path.isdir(file_path):
                 parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
-                if not parent_dir == 'fredit':
+                if not parent_dir == "fredit":
                     dto = FileModel(
                         file_id=row_idx,
                         file_name=file_name,
@@ -153,7 +161,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                         file_custom_dir=os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
                         depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
                         depth2_dir=os.path.basename(os.path.dirname(file_path)),
-                        depth3_dir=file_name
+                        depth3_dir=file_name,
                     )
                     result.append(dto)
                 sub_full_path_list(original_file_dir, os.path.realpath(file_path), result, type)
@@ -168,7 +176,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                     file_custom_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))) + file_separator + os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
                     depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
                     depth2_dir=os.path.basename(os.path.dirname(file_path)),
-                    depth3_dir=file_name
+                    depth3_dir=file_name,
                 )
                 result.append(dto)
             elif os.path.isdir(file_path):

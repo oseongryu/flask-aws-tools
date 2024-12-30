@@ -22,7 +22,6 @@ import common_utils as utils
 app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_render)
-
 app.SCREENSHOT_DIR = config.SCREENSHOT_DIR
 app.SHORTS_DIR = config.SHORTS_DIR
 app.BACKGROUND_DIR = config.BACKGROUND_DIR
@@ -58,7 +57,7 @@ for routes_item in routes_items:
         else:
             import sqlite3
 
-            DATABASE = os.getenv("SQLITE_DB_PATH", "/shorts/database/test.db")
+            DATABASE = os.getenv("SQLITE_DB_PATH")
             db = sqlite3.connect(DATABASE, check_same_thread=False)
             app.db = db
     elif "aws" in routes_item:
