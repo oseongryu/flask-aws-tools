@@ -11,6 +11,9 @@ var func_aws = func_aws || (function(){
                 url: '/aws/run-aws-ip',
                 method: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data: JSON.stringify({ filter_value: filterValue }),
                 success: function(data) {
                     const ipList = $('#ip_list');
@@ -33,6 +36,9 @@ var func_aws = func_aws || (function(){
                 url: '/aws/run-aws-deploy',
                 method: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data: JSON.stringify({ searchDate: searchDate }),
                 success: function(data) {
                     console.log('data:', data);
@@ -55,6 +61,9 @@ var func_aws = func_aws || (function(){
             $.ajax({
                 type: 'POST',
                 url: '/aws/run-aws-alb',
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data: formData,
                 success: function(data) {
                     const checkList = $('#check_list');

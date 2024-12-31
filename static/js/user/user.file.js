@@ -36,6 +36,9 @@ var user_file = user_file || (function () {
                 url: "/api/file/file-scan",
                 method: "GET",
                 async: false,
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 complete: function (response) {
                     // user_modal.success();
                     if (!user_function.isEmpty(response) && response.status == 200) {
@@ -54,11 +57,15 @@ var user_file = user_file || (function () {
             $.ajax({
                 url: `/file/file-list`,
                 method: "POST",
-                async: false,
+                async: true,
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data: {
                     fileDownloadDir: fileDir,
                     type: type
                 },
+
                 complete: function (response) {
                     // user_modal.success();
                     if (!user_function.isEmpty(response) && response.status == 200) {
@@ -100,6 +107,9 @@ var user_file = user_file || (function () {
                         pythonEnvPath: envPath,
                         pythonPath: scriptPath,
                     },
+                    headers: {
+                        'x-access-tokens': sessionStorage.getItem('token')
+                    },
                     complete: function (response) {
                         // user_modal.success();
                     },
@@ -116,6 +126,9 @@ var user_file = user_file || (function () {
                 method: "POST",
                 data: {
                     id: rowNum
+                },
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
                 },
                 complete: function (response) {
                     // user_modal.success();

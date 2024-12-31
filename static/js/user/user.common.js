@@ -77,6 +77,9 @@ var user_common = user_common || (function(){
                 url : `/load-type/json/${fileName}`,
                 method : "GET",
                 async: false,
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data : {
                 },
                 complete : function(response) {
@@ -100,6 +103,9 @@ var user_common = user_common || (function(){
                 async: false,
                 contentType : "application/json; charset=UTF-8",
                 dataType : "json",
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data : JSON.stringify({
                     "fileId" : fileName,
                     "type": "project"
@@ -124,6 +130,9 @@ var user_common = user_common || (function(){
                 url: "/run-command",
                 type: "POST",
                 contentType: "application/json",
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
+                },
                 data: JSON.stringify({ command: command }),
                 complete : function(response) {
                     // user_modal.success();

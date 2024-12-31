@@ -18,6 +18,6 @@ def token_required(f):
             current_user = data["user"]
         except:
             return jsonify({"message": "Token is invalid!"}), 401
-        return f(current_user, *args, **kwargs)
+        return f(*args, **kwargs)
 
     return decorated

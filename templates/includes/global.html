@@ -1,12 +1,12 @@
-<script src="/static/js/user/user.common.js" ></script>
-<script src="/static/js/user/user.cookie.js" ></script>
-<script src="/static/js/user/user.event.js" ></script>
-<script src="/static/js/user/user.file.js" ></script>
-<script src="/static/js/user/user.function.js" ></script>
-<script src="/static/js/user/user.json.js" ></script>
-<script src="/static/js/user/user.modal.js" ></script>
-<script src="/static/js/user/user.session.js" ></script>
-<script src="/static/js/user/user.viewer.js" ></script>
+<script src="/static/js/user/user.common.js"></script>
+<script src="/static/js/user/user.cookie.js"></script>
+<script src="/static/js/user/user.event.js"></script>
+<script src="/static/js/user/user.file.js"></script>
+<script src="/static/js/user/user.function.js"></script>
+<script src="/static/js/user/user.json.js"></script>
+<script src="/static/js/user/user.modal.js"></script>
+<script src="/static/js/user/user.session.js"></script>
+<script src="/static/js/user/user.viewer.js"></script>
 
 <script>
     // $(document).ready(function() {
@@ -16,4 +16,16 @@
     //     	func_automation.customData = gJsonDataAutomation;
     //     }
     // });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentPath = window.location.pathname;
+        console.log(currentPath.includes('auth'));
+        if (!currentPath.includes('auth')) {
+            console.log(currentPath);
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/auth';
+            }
+        }
+    });
 </script>

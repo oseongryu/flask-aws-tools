@@ -1,54 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+{% include 'includes/header.html' %}
+{% include 'includes/global.html' %}
+{% include 'includes/footer.html' %}
+{% include 'includes/modal.html' %}
+<script src="/static/js/auth/func.auth.js"></script>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+<script>
 
-<body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    <ul id="messages" class="flashes"></ul>
-  </div>
+  $(document).ready(function () {
 
-  <script>
-    $(document).ready(function () {
-      $('#loginForm').on('submit', function (event) {
-        event.preventDefault();
-
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-          url: '{{ url_for("routes_auth.login") }}',
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({ username: username, password: password }),
-          success: function (response) {
-            $('#messages').empty().append('<li class="success">Login successful! Token: ' + response.token + '</li>');
-          },
-          error: function (xhr, status, error) {
-            $('#messages').empty().append('<li class="danger">Login failed: ' + xhr.responseJSON.message + '</li>');
-          }
-        });
-      });
+    $('#btnAuth').click(function (e) {
+      var userId = $("#userId").val();
+      var userPw = $("#userPw").val();
+      func_auth.auth(userId, userPw);
     });
-  </script>
-</body>
+  });
 
-</html>
+</script>
+
+<body class="hold-transition skin-red layout-top-nav">
+  <div class="wrapper">
+    <div class="content-wrapper">
+      <div class="container">
+        <!-- Content Header -->
+        <!-- <section class="content-header"></section> -->
+        <!-- .Content Header -->
+        <!-- Content Body-->
+        <section class="content">
+          <!-- Content Row -->
+          <div class="login-box">
+            <div class="login-logo">
+              <a href="/index"><b>Login</b></a>
+            </div>
+            <div class="login-box-body login-page">
+              <form method="post">
+                <div class="form-group has-feedback">
+                  <input type="text" name="userId" id="userId" class="form-control" placeholder="ID"> <span
+                    class="glyphicon glyphicon-pencil form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                  <input type="password" name="userPw" id="userPw" class="form-control" placeholder="Password"> <span
+                    class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div>
+                  <div class="social-auth-links text-center">
+                    <input type="button" id="btnAuth" class="btn btn-primary" value="로그인">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- .Content Row -->
+        </section>
+        <!-- Content Body-->
+      </div>
+    </div>
+  </div>
+</body>
