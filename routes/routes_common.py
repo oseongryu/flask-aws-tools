@@ -40,7 +40,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1]
         filename = request.values["index"] + file_extension
-        uploadPath = request.values["uploadPath"]
+        uploadPath = config.SHORTS_DIR + request.values["storyId"]
         os.makedirs(uploadPath, exist_ok=True)
         file.save(os.path.join(uploadPath, filename))
         return jsonify(message="File successfully uploaded"), 200

@@ -4,51 +4,25 @@ import sys
 
 from flask import Blueprint, jsonify, render_template, request, send_from_directory
 
-# sys.path.append(os.path.expanduser("~") + '/git/python-selenium/shorts')
-# import tts_story
-# sys.path.append(os.path.expanduser("~") + '/git/python-selenium/selenium')
-# import service
+import config
 
 routes_automation = Blueprint("routes_automation", __name__)
-
-# @routes_automation.route('/run-tts-story', methods=['GET'])
-# def run_tts_story():
-#     # story_id = request.json.get('story_id', 1)
-#     # story_name = request.json.get('story_name', 'shorts')
-#     story_id = '5'
-#     story_name = 'shorts'
-#     try:
-#         result = tts_story.run_tts_story(story_id, story_name)
-#         return jsonify({"message": "Script executed successfully", "output": result})
-#     except Exception as e:
-#         return jsonify({"message": "Script execution failed", "error": str(e)}), 500
-
-
-# @routes_automation.route('/run-automation', methods=['GET'])
-# def run_automation():
-
-#     init_number = request.args.get('no')
-#     # site_name = request.args.get('siteName')
-#     site_name = 'fredit'
-#     try:
-#         result = service.run_script(init_number, site_name)
-#         # return jsonify({"message": "Script executed successfully", "output": result})
-#     except Exception as e:
-#         return jsonify({"message": "Script execution failed", "error": str(e)}), 500
 
 
 @routes_automation.route("/api/automation/python-exec", methods=["GET", "POST"])
 def python_exec():
     script_id = request.args.get("id") or request.form.get("id")
-    python_path = request.args.get("pythonPath")
-    python_env_path = request.args.get("pythonEnvPath")
-    if python_env_path == None:
-        python_env_path = "python3"
-    if python_path == None:
-        python_path = os.path.expanduser("~") + "/git/python-selenium/selenium/service.py"
+    type = request.args.get("type")
 
-    if not script_id or not python_path or not python_env_path:
+    if not script_id:
         return jsonify(message="Missing required query parameters"), 400
+
+    if type == "shorts":
+        python_path = config.PYTHON_SHORTS_TTS_PATH
+        python_env_path = config.PYTHON_ENV_PATH_MAC
+    else:
+        python_path = config.PYTHON_AUTOMATION_PATH
+        python_env_path = "python3"
 
     try:
         result = run_async_process(python_env_path, python_path, script_id)
