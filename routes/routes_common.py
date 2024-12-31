@@ -25,15 +25,47 @@ routes_common = Blueprint("routes_common", __name__)
 
 
 @routes_common.route("/background/<filename>", methods=["GET"])
-@token_required
 def download_background_file(filename):
     return send_from_directory(config.BACKGROUND_DIR, filename)
 
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
-@token_required
 def download_shorts_file(location, filename):
     return send_from_directory(config.SHORTS_DIR + location, filename)
+
+
+@routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
+def load_type(type, fileId):
+    return common_service_load_type(type, fileId)
+
+
+@routes_common.route("/load-type/<depth1>/<depth2>/<fileId>", methods=["GET"])
+def load_type_depth(depth1, depth2, fileId):
+    type = f"{depth1}/{depth2}"
+    return common_service_load_type(type, fileId)
+
+
+@routes_common.route("/load-type", methods=["POST"])
+@token_required
+def load_type_post():
+    # response.headers["Content-Type"] = "application/octet-stream"
+    param_map = request.json
+    type = param_map.get("type")
+    fileId = param_map.get("fileId")
+    if fileId == "automation-setting-file-dir":
+        fileId = config.AUTOMATION_SETTING
+
+    return common_service_load_type(fileId, type)
+
+
+@routes_common.route("/load-class-path", methods=["POST"])
+@token_required
+def load_class_path():
+    param_map = request.json
+    file_dir = param_map.get("fileDir")
+    if file_dir == "automation-popup-setting-file-dir":
+        file_dir = config.AUTOMATION_POPUP_SETTING
+    return file_dir
 
 
 @routes_common.route("/file/upload-file", methods=["POST"])
@@ -84,40 +116,6 @@ def select_file_list():
     response_objects.sort(key=lambda x: x.file_dir)
     response_dicts = [response.to_dict() for response in response_objects]
     return response_dicts, 200
-
-
-@routes_common.route("/load-class-path", methods=["POST"])
-@token_required
-def load_class_path():
-    param_map = request.json
-    file_dir = param_map.get("fileDir")
-    if file_dir == "automation-popup-setting-file-dir":
-        file_dir = config.AUTOMATION_POPUP_SETTING
-    return file_dir
-
-
-@routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
-def load_type(type, fileId):
-    return common_service_load_type(type, fileId)
-
-
-@routes_common.route("/load-type/<depth1>/<depth2>/<fileId>", methods=["GET"])
-def load_type_depth(depth1, depth2, fileId):
-    type = f"{depth1}/{depth2}"
-    return common_service_load_type(type, fileId)
-
-
-@routes_common.route("/load-type", methods=["POST"])
-@token_required
-def load_type_post():
-    # response.headers["Content-Type"] = "application/octet-stream"
-    param_map = request.json
-    type = param_map.get("type")
-    fileId = param_map.get("fileId")
-    if fileId == "automation-setting-file-dir":
-        fileId = config.AUTOMATION_SETTING
-
-    return common_service_load_type(fileId, type)
 
 
 @routes_common.route("/run-command", methods=["POST"])

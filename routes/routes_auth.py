@@ -17,8 +17,8 @@ from auth import token_required
 routes_auth = Blueprint("routes_auth", __name__)
 
 
-@routes_auth.route("/api/login", methods=["POST"])
-def login():
+@routes_auth.route("/auth", methods=["POST"])
+def auth():
     username = os.getenv("USER_NAME")
     password = os.getenv("PASSWORD")
     auth = request.authorization
