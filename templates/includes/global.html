@@ -22,7 +22,7 @@
         console.log(currentPath.includes('auth'));
         if (!currentPath.includes('auth')) {
             console.log(currentPath);
-            const token = sessionStorage.getItem('token');
+            const token = user_session.get('token');
             if (!token) {
                 window.location.href = '/auth';
             }

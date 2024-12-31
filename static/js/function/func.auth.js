@@ -7,7 +7,6 @@ var func_auth = func_auth || (function(){
       },
       auth: async function(userId, userPw) {
         var authHeader = 'Basic ' + btoa(userId + ':' + userPw);
-
         $.ajax({
             url: '/api/login',
             method: 'POST',
@@ -17,7 +16,7 @@ var func_auth = func_auth || (function(){
             },
             data: JSON.stringify({ username: userId, password: userPw }),
             success: function (response) {
-              sessionStorage.setItem('token', response.token);
+              user_session.set('token', response.token);
               window.location.href = '/';
             },
             error: function(error) {

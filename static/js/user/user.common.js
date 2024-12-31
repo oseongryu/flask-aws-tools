@@ -5,22 +5,6 @@ var user_common = user_common || (function(){
         init: function(e){
             console.dir(this.document.currentScript.src);
         },
-        exec: function(name) {
-            console.dir('exec')
-            if(name == null || name == ''){
-                name = 'systemInfo'
-            }
-            $.ajax({
-                url : name,
-                method : "GET",
-                success : function(response) {
-                    console.dir(response);
-                },
-                error : function(error) {
-                    alert('error');
-                },
-            });
-        },
         loadClassPath: async function(fileDir){
             var result = {}
             $.ajax({
@@ -78,7 +62,7 @@ var user_common = user_common || (function(){
                 method : "GET",
                 async: false,
                 headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
+                    'x-access-tokens': user_session.get('token')
                 },
                 data : {
                 },
@@ -104,7 +88,7 @@ var user_common = user_common || (function(){
                 contentType : "application/json; charset=UTF-8",
                 dataType : "json",
                 headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
+                    'x-access-tokens': user_session.get('token')
                 },
                 data : JSON.stringify({
                     "fileId" : fileName,
@@ -124,30 +108,6 @@ var user_common = user_common || (function(){
             });
             return result;
         },
-        run_command: async function(){
-            const command = $("#command").val();
-            $.ajax({
-                url: "/run-command",
-                type: "POST",
-                contentType: "application/json",
-                headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
-                },
-                data: JSON.stringify({ command: command }),
-                complete : function(response) {
-                    // user_modal.success();
-                    const result = response.responseJSON;
-                    if(!user_function.isEmpty(response) && response.status == 200) {
-                        $("#output").text(result.output || result.error);
-                    }
-                },
-                exception : function(error) {
-                    console.log(error)
-                    user_modal.error();
-                    result = {}
-                },
-            });
-        }
     }
 })();
 

@@ -155,7 +155,7 @@ var user_json = user_json || (function(){
                 try {
                     // 설정값 skip
                     var settingKey = arrList[rowIndex];
-                    var settingVal = sessionStorage.getItem(arrList[rowIndex]);
+                    var settingVal = user_session.get(arrList[rowIndex]);
                     if(!user_function.isEmpty(settingVal) && settingKey == key) {
                         val = settingVal;
                         break;

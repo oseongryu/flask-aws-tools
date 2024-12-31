@@ -8,10 +8,16 @@ var user_session = user_session || (function(){
         load: function(event){
             for (var rowIdx = 0; rowIdx < sessionStorage.length; rowIdx++ ){
                 var key = sessionStorage.key(rowIdx);
-                if(!user_function.isEmpty(sessionStorage.getItem(key))){
-                    $('#'+ key).val(sessionStorage.getItem(key));
+                if(!user_function.isEmpty(user_session.get(key))){
+                    $('#'+ key).val(user_session.get(key));
                 }
             }
+        },
+        get: function(key){
+            return user_session.get(key);
+        },
+        set: function(key, value){
+            sessionStorage.setItem(key, value);
         },
 	}
 })();

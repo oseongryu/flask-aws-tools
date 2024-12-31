@@ -12,7 +12,7 @@ var func_aws = func_aws || (function(){
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
+                    'x-access-tokens': user_session.get('token')
                 },
                 data: JSON.stringify({ filter_value: filterValue }),
                 success: function(data) {
@@ -37,7 +37,7 @@ var func_aws = func_aws || (function(){
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
+                    'x-access-tokens': user_session.get('token')
                 },
                 data: JSON.stringify({ searchDate: searchDate }),
                 success: function(data) {
@@ -62,7 +62,7 @@ var func_aws = func_aws || (function(){
                 type: 'POST',
                 url: '/aws/run-aws-alb',
                 headers: {
-                    'x-access-tokens': sessionStorage.getItem('token')
+                    'x-access-tokens': user_session.get('token')
                 },
                 data: formData,
                 success: function(data) {
@@ -77,6 +77,30 @@ var func_aws = func_aws || (function(){
                     console.error('Error:', error);
                 }
 
+            });
+        },
+        run_command: async function(){
+            const command = $("#command").val();
+            $.ajax({
+                url: "/run-command",
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    'x-access-tokens': user_session.get('token')
+                },
+                data: JSON.stringify({ command: command }),
+                complete : function(response) {
+                    // user_modal.success();
+                    const result = response.responseJSON;
+                    if(!user_function.isEmpty(response) && response.status == 200) {
+                        $("#output").text(result.output || result.error);
+                    }
+                },
+                exception : function(error) {
+                    console.log(error)
+                    user_modal.error();
+                    result = {}
+                },
             });
         }
     }

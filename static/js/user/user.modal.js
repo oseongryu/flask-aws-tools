@@ -54,7 +54,7 @@ var user_modal = user_modal || (function(){
                         + "<td style='text-align:left'>"+ key + "</td>"
                         + "<td style='text-align:center'><input type='text' name='"+key+"' style='width: 100%; border: none;' autocomplete='off' ></td>"
                         + "</tr>");
-                    $("[name='"+key+"']").val(sessionStorage.getItem(key));
+                    $("[name='"+key+"']").val(user_session.get(key));
                 })
                 $("#settingTable").append("</tbody>");
 

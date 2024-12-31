@@ -14,7 +14,7 @@ var user_event = user_event || (function(){
             console.dir(this.document.currentScript.src);
         },
         init_keyboard : function(paramId, url){
-            console.log('user_event nit_keyboard');
+            console.log('user_event init_keyboard');
             window.addEventListener("keydown", (e) => {
 
                 if(e.shiftKey && e.key === 'ArrowUp'){
