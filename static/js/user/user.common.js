@@ -117,7 +117,7 @@ var user_common = user_common || (function(){
             $.ajax({
                 url: `/file/file-list`,
                 method: "POST",
-                async: true,
+                async: false,
                 headers: {
                     'x-access-tokens': user_session.get('token')
                 },

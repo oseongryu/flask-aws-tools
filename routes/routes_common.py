@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import sys
 
 from flask import (
     Blueprint,
@@ -16,6 +17,9 @@ from werkzeug.utils import secure_filename
 import config
 from app_class import FileModel
 from auth import token_required
+
+sys.path.append("./common")
+import common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)
 
@@ -61,7 +65,7 @@ def select_file_list():
         file_download_dir = file_download_dir.replace("screenshot", config.SCREENSHOT_DIR).replace("\\\\", "/")
 
     subdirs = []
-    sub_full_path_list(file_download_dir, file_download_dir, subdirs, file_type)
+    utils.sub_full_path_list(file_download_dir, file_download_dir, subdirs, file_type)
 
     response_objects = [
         FileModel(
@@ -93,13 +97,11 @@ def load_class_path():
 
 
 @routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
-@token_required
 def load_type(type, fileId):
     return common_service_load_type(type, fileId)
 
 
 @routes_common.route("/load-type/<depth1>/<depth2>/<fileId>", methods=["GET"])
-@token_required
 def load_type_depth(depth1, depth2, fileId):
     type = f"{depth1}/{depth2}"
     return common_service_load_type(type, fileId)
@@ -134,57 +136,3 @@ def common_service_load_type(fileId, type):
         return send_file(fileId, as_attachment=True)
     else:
         return send_file(config.SCREENSHOT_DIR + "/" + fileId + "/" + type, as_attachment=True)
-
-
-def list_subdir_files(filePath):
-    included_extensions = {".webp", ".png", ".jepg", ".jpg", ".gif"}
-    subdir_files = {}
-    for root, dirs, files in os.walk(filePath):
-        subdir = os.path.relpath(root, filePath)
-        filtered_files = [file for file in files if any(file.endswith(ext) for ext in included_extensions)]
-        if len(filtered_files) > 0:
-            subdir_files[subdir] = filtered_files
-    return subdir_files
-
-
-def sub_full_path_list(original_file_dir, file_dir, result, type):
-    file_separator = os.sep
-    file_list = os.listdir(file_dir)
-    for row_idx, file_name in enumerate(file_list):
-        file_path = os.path.join(file_dir, file_name)
-        if type == "dir":
-            if os.path.isfile(file_path):
-                continue
-            elif os.path.isdir(file_path):
-                parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
-                if not parent_dir == "fredit":
-                    dto = FileModel(
-                        file_id=row_idx,
-                        file_name=file_name,
-                        file_path=file_path,
-                        file_dir=file_name,
-                        file_parent_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
-                        file_custom_dir=os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
-                        depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
-                        depth2_dir=os.path.basename(os.path.dirname(file_path)),
-                        depth3_dir=file_name,
-                    )
-                    result.append(dto)
-                sub_full_path_list(original_file_dir, os.path.realpath(file_path), result, type)
-        else:
-            if os.path.isfile(file_path):
-                dto = FileModel(
-                    file_id=row_idx,
-                    file_name=file_name,
-                    file_path=file_path,
-                    file_dir=file_name,
-                    file_parent_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
-                    file_custom_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))) + file_separator + os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
-                    depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
-                    depth2_dir=os.path.basename(os.path.dirname(file_path)),
-                    depth3_dir=file_name,
-                )
-                result.append(dto)
-            elif os.path.isdir(file_path):
-                sub_full_path_list(original_file_dir, os.path.realpath(file_path), result, type)
-    return result

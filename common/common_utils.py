@@ -2,6 +2,8 @@ import os
 import platform
 from datetime import datetime
 
+from app_class import FileModel
+
 
 def convert_string_to_datetime(date_str):
     # Convert 'YYYY-MM-DD' string to datetime object
@@ -65,3 +67,46 @@ def is_unix():
 def is_solaris():
     os_name = platform.system().lower()
     return "sunos" in os_name
+
+
+def sub_full_path_list(original_file_dir, file_dir, result, type):
+    file_separator = os.sep
+    file_list = os.listdir(file_dir)
+    for row_idx, file_name in enumerate(file_list):
+        file_path = os.path.join(file_dir, file_name)
+        if type == "dir":
+            if os.path.isfile(file_path):
+                continue
+            elif os.path.isdir(file_path):
+                parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
+                if not parent_dir == "fredit":
+                    dto = FileModel(
+                        file_id=row_idx,
+                        file_name=file_name,
+                        file_path=file_path,
+                        file_dir=file_name,
+                        file_parent_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
+                        file_custom_dir=os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
+                        depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
+                        depth2_dir=os.path.basename(os.path.dirname(file_path)),
+                        depth3_dir=file_name,
+                    )
+                    result.append(dto)
+                sub_full_path_list(original_file_dir, os.path.realpath(file_path), result, type)
+        else:
+            if os.path.isfile(file_path):
+                dto = FileModel(
+                    file_id=row_idx,
+                    file_name=file_name,
+                    file_path=file_path,
+                    file_dir=file_name,
+                    file_parent_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
+                    file_custom_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))) + file_separator + os.path.basename(os.path.dirname(file_path)) + file_separator + file_name,
+                    depth1_dir=os.path.basename(os.path.dirname(os.path.dirname(file_path))),
+                    depth2_dir=os.path.basename(os.path.dirname(file_path)),
+                    depth3_dir=file_name,
+                )
+                result.append(dto)
+            elif os.path.isdir(file_path):
+                sub_full_path_list(original_file_dir, os.path.realpath(file_path), result, type)
+    return result
