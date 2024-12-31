@@ -25,6 +25,7 @@ app = Flask(__name__, template_folder="templates", static_url_path="/static", st
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_render)
 app.register_blueprint(routes_auth)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 load_dotenv()
 
@@ -38,7 +39,6 @@ for routes_item in routes_items:
         from routes.routes_shorts import routes_shorts
 
         app.register_blueprint(routes_shorts)
-        app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
         if db_name == "mysql":
             from flask_mysqldb import MySQL
