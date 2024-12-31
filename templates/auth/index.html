@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <ul id="messages" class="flashes"></ul>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('#loginForm').on('submit', function (event) {
+        event.preventDefault();
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+          url: '{{ url_for("routes_auth.login") }}',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ username: username, password: password }),
+          success: function (response) {
+            $('#messages').empty().append('<li class="success">Login successful! Token: ' + response.token + '</li>');
+          },
+          error: function (xhr, status, error) {
+            $('#messages').empty().append('<li class="danger">Login failed: ' + xhr.responseJSON.message + '</li>');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

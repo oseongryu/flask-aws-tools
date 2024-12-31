@@ -19,3 +19,8 @@ def aws_index():
 @routes_render.route("/automation/")
 def automation_index():
     return render_template("automation/index.html")
+
+
+@routes_render.route("/auth/")
+def auth_index():
+    return render_template("auth/index.html")

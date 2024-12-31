@@ -1,11 +1,14 @@
 import os
 import sys
+from functools import wraps
 
+import jwt
 from dotenv import load_dotenv
 from flask import (
     Flask,
     Response,
     jsonify,
+    make_response,
     render_template,
     request,
     send_file,
@@ -13,21 +16,16 @@ from flask import (
 )
 
 import config
+from auth import token_required
+from routes.routes_auth import routes_auth
 from routes.routes_common import routes_common
 from routes.routes_render import routes_render
-
-sys.path.append("./common")
-import common_utils as utils
 
 app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_render)
-app.SCREENSHOT_DIR = config.SCREENSHOT_DIR
-app.SHORTS_DIR = config.SHORTS_DIR
-app.BACKGROUND_DIR = config.BACKGROUND_DIR
-app.JS_DIR = config.JS_DIR
-app.AUTOMATION_SETTING = config.AUTOMATION_SETTING
-app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
+app.register_blueprint(routes_auth)
+
 load_dotenv()
 
 # Load and parse the array from the .env file
@@ -40,6 +38,7 @@ for routes_item in routes_items:
         from routes.routes_shorts import routes_shorts
 
         app.register_blueprint(routes_shorts)
+        app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
         if db_name == "mysql":
             from flask_mysqldb import MySQL

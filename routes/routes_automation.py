@@ -5,11 +5,13 @@ import sys
 from flask import Blueprint, jsonify, render_template, request, send_from_directory
 
 import config
+from auth import token_required
 
 routes_automation = Blueprint("routes_automation", __name__)
 
 
 @routes_automation.route("/api/automation/python-exec", methods=["GET", "POST"])
+@token_required
 def python_exec():
     script_id = request.args.get("id") or request.form.get("id")
     type = request.args.get("type")

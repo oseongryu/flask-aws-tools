@@ -6,11 +6,13 @@ from werkzeug.utils import secure_filename
 
 import aws.aws_deploy as aws_deploy
 import aws.aws_was_ip as aws_was_ip
+from auth import token_required
 
 routes_aws = Blueprint("routes_aws", __name__)
 
 
 @routes_aws.route("/aws/run-aws-ip", methods=["POST"])
+@token_required
 def run_aws_ip():
     try:
         filter_value = request.json.get("filter_value")
@@ -21,6 +23,7 @@ def run_aws_ip():
 
 
 @routes_aws.route("/aws/run-aws-deploy", methods=["POST"])
+@token_required
 def run_aws_deploy():
     try:
         search_date = request.json.get("searchDate")
@@ -31,6 +34,7 @@ def run_aws_deploy():
 
 
 @routes_aws.route("/aws/run-aws-alb", methods=["POST"])
+@token_required
 def run_aws_alb():
     try:
         result = request.form.getlist("hours")

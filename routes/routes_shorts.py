@@ -14,11 +14,13 @@ from app_service import (
     select_table,
     update_origin_info,
 )
+from auth import token_required
 
 routes_shorts = Blueprint("routes_shorts", __name__)
 
 
 @routes_shorts.route("/origin-info/search-origin-info", methods=["POST"])
+@token_required
 def query_origin_info():
     try:
         request_data = request.get_json()
@@ -29,6 +31,7 @@ def query_origin_info():
 
 
 @routes_shorts.route("/origin-info/search-origin-info-list", methods=["POST"])
+@token_required
 def query_origin_info_list():
     try:
         return jsonify(select_origin_info("")), 200
@@ -37,6 +40,7 @@ def query_origin_info_list():
 
 
 @routes_shorts.route("/origin-info/save-origin-info", methods=["POST"])
+@token_required
 def query_save_origin_info():
     try:
         request_data = request.get_json()
@@ -58,6 +62,7 @@ def query_save_origin_info():
 
 
 @routes_shorts.route("/origin-info/delete-origin-info", methods=["POST"])
+@token_required
 def query_delete_origin_info():
     try:
         request_data = request.get_json()
@@ -71,6 +76,7 @@ def query_delete_origin_info():
 
 
 @routes_shorts.route("/origin-info/save-story", methods=["POST"])
+@token_required
 def query_save_story():
     try:
         request_data = request.get_json()
@@ -86,6 +92,7 @@ def query_save_story():
 
 
 @routes_shorts.route("/prompt", methods=["GET"])
+@token_required
 def query_prompt():
     try:
         return jsonify(select_table("prompt", "PromptClass")), 200
@@ -94,6 +101,7 @@ def query_prompt():
 
 
 @routes_shorts.route("/prompt-history", methods=["GET"])
+@token_required
 def query_prompt_history():
     try:
         return jsonify(select_table("prompt_history", "PromptHistoryClass")), 200
