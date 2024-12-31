@@ -31,7 +31,7 @@ app.AUTOMATION_POPUP_SETTING = config.AUTOMATION_POPUP_SETTING
 load_dotenv()
 
 # Load and parse the array from the .env file
-routes_items = os.getenv("routes_item", "").split(",")
+routes_items = os.getenv("ROUTES_ITEM", "").split(",")
 
 db_name = "sqlite"
 for routes_item in routes_items:

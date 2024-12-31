@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from lxml import etree
 
 load_dotenv()
-export_path = os.getenv("sitemap_export_path")
+export_path = os.getenv("SITEMAP_EXPORT_PATH")
 # # URL 목록
 
 # CSV 파일에서 URL 목록 읽기

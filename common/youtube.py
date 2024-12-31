@@ -87,7 +87,7 @@ class YouTubeScraper:
 
 if __name__ == "__main__":
     load_dotenv()
-    youtube_url = os.getenv("youtube_crawling_url")
+    youtube_url = os.getenv("YOUTUBE_CRAWLING_URL")
     logFileName = os.path.expanduser("~") + "/youtube.log"
     logger = CommonLogging(logFileName).logger
     scraper = YouTubeScraper(youtube_url)
