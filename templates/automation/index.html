@@ -26,12 +26,12 @@
 		});
 
 		$('#btnScreenshotClear').click(function (e) {
-			user_file.pythonExec(0, '/Users/oseongryu/git/python-selenium/venv/bin/python3', '/Users/oseongryu/git/python-selenium/selenium/service_remove_screenshot.py');
+			user_common.pythonExec(0, '/Users/oseongryu/git/python-selenium/venv/bin/python3', '/Users/oseongryu/git/python-selenium/selenium/service_remove_screenshot.py');
 		});
 
 		$('#btnExecAll').click(function (e) {
 			if (confirm("전체 실행하시겠습니까? (주문제외)\n★ 1.검색 ~ 7.배송지요일변경\n★ 30초 단위로 실행 함")) {
-				user_file.pythonExecAll(0);
+				user_common.pythonExecAll(0);
 			}
 		});
 

@@ -43,7 +43,7 @@ var func_automation = func_automation || (function(){
                         "<tr>"
                         + `<td style='text-align:left; font-size:12px;'><div style='overflow: hidden; text-overflow: ellipsis; width: 100%; height:20px'>${rowIdx+1}</div></td>`
                         + `<td style='text-align:left; font-size:12px;'><div style='overflow: hidden; text-overflow: ellipsis; width: 100%; height:20px'>${siteExecDesc}</div></td>`
-                        + `<td style='text-align:center; font-size:12px;'><div style='overflow: hidden; text-overflow: ellipsis; width: 100%; height:20px'><a name=${siteExecName} onclick='user_file.pythonExec(${rowIdx});'>실행</a></div></td>`
+                        + `<td style='text-align:center; font-size:12px;'><div style='overflow: hidden; text-overflow: ellipsis; width: 100%; height:20px'><a name=${siteExecName} onclick='user_common.pythonExec(${rowIdx});'>실행</a></div></td>`
                         + "</tr>");
                 }
             }
@@ -54,7 +54,7 @@ var func_automation = func_automation || (function(){
             var viewNameId = `#${viewName}View`;
             var viewTable = `${viewName}Table`;
             var viewTableId = `#${viewTable}`;
-            var result =await user_file.fileList(fileDir, type);
+            var result =await user_common.fileList(fileDir, type);
 
             if (user_function.isEmpty(result)) {
                 $(viewNameId).html("<table id='execTable' class='table no-margin'></table>");
@@ -111,7 +111,7 @@ var func_automation = func_automation || (function(){
         },
         selectScreenshotList: async function(fileDir, type) {
             console.dir('selectScreenshotList')
-            var result = await user_file.fileList(fileDir, type);
+            var result = await user_common.fileList(fileDir, type);
             var resultList = JSON.parse(result);
             for (var rowIdx = 0; rowIdx < resultList.length; rowIdx++) {
                 var depth1Dir = resultList[rowIdx].depth1Dir;
@@ -130,7 +130,6 @@ var func_automation = func_automation || (function(){
             }
             user_viewer.grid();
         },
-
     }
 })();
 
