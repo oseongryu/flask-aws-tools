@@ -18,7 +18,6 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         const currentPath = window.location.pathname;
-        console.log(currentPath.includes('auth'));
         if (!currentPath.includes('auth')) {
             console.log(currentPath);
             const token = user_session.get('token');

@@ -19,6 +19,9 @@ var user_session = user_session || (function(){
         set: function(key, value){
             sessionStorage.setItem(key, value);
         },
+        remove: function(key){
+            sessionStorage.removeItem(key);
+        },
 	}
 })();
 
