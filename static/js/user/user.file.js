@@ -65,7 +65,6 @@ var user_file = user_file || (function () {
                     fileDownloadDir: fileDir,
                     type: type
                 },
-
                 complete: function (response) {
                     // user_modal.success();
                     if (!user_function.isEmpty(response) && response.status == 200) {
@@ -90,6 +89,9 @@ var user_file = user_file || (function () {
                 method: "POST",
                 data: {
                     id: "5"
+                },
+                headers: {
+                    'x-access-tokens': sessionStorage.getItem('token')
                 },
                 complete: function (result) {
                     user_modal.success();
