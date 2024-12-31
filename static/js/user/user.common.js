@@ -13,6 +13,9 @@ var user_common = user_common || (function(){
                 async: false,
                 contentType : "application/json; charset=UTF-8",
                 dataType : "json",
+                headers: {
+                    'x-access-tokens': user_session.get('token')
+                },
                 data : JSON.stringify({
                     "fileDir" : fileDir
                 }),

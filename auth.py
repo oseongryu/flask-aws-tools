@@ -1,6 +1,7 @@
 # auth.py
 from functools import wraps
 
+# pip install pyjwt
 import jwt
 from flask import current_app, jsonify, request
 
