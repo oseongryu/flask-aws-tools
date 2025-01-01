@@ -1,4 +1,5 @@
 #
+.idea
 temp.html
 was/
 screenshot/
@@ -16,6 +17,7 @@ secrets_prd.json
 __pycache__/
 *.py[cod]
 *$py.class
+*.sql
 
 # C extensions
 *.so
