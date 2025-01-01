@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Blueprint, current_app, jsonify, request
 
-from models import OriginInfoModel, PromptModel, PromptHiStoryModel, StoryModel
+from models import OriginInfoModel, PromptHiStoryModel, PromptModel, StoryModel
 
 
 def select_origin_info(storyId):
@@ -42,7 +42,7 @@ def select_table(table_name, class_name):
 def insert_origin_info(storyId, content, originContent, originTitle, originUrl, title):
     cur = current_app.db.cursor()
     user = "admin"
-    created_date = modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    created_date = modified_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     cur.execute(
         "INSERT INTO origin_info (story_id, content, origin_content, origin_title, origin_url, title, created_by, created_date, modified_by, modified_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -56,10 +56,9 @@ def insert_origin_info(storyId, content, originContent, originTitle, originUrl, 
 def update_origin_info(storyId, content, originContent, originTitle, originUrl, title):
     cur = current_app.db.cursor()
     user = "admin"
-    modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    modified_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cur.execute(
-        "UPDATE origin_info SET modified_by=?, modified_date=?, content=?, origin_content=?, origin_title=?, origin_url=?, title=? WHERE story_id=?", 
-        (user, modified_date, content, originContent, originTitle, originUrl, title, storyId)
+        "UPDATE origin_info SET modified_by=?, modified_date=?, content=?, origin_content=?, origin_title=?, origin_url=?, title=? WHERE story_id=?", (user, modified_date, content, originContent, originTitle, originUrl, title, storyId)
     )
     current_app.db.commit()
     cur.close()
@@ -82,7 +81,7 @@ def insert_story(storyId, seq, idx, storyItem):
     soundPath = f"{idx}.mp3"
     imagePath = f"{idx}.webp"
     content = storyItem.get("content")
-    created_date = modified_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    created_date = modified_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     cur.execute(
         "INSERT INTO story (story_id, id, height, no, sound_path, image_path, content, created_by, created_date, modified_by, modified_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -125,8 +124,6 @@ def max_story_seq(storyId):
     else:
         val = result[0].get("seq")
     return val
-
-
 
 
 def delete_story(storyId):

@@ -15,13 +15,14 @@ from flask import (
 from werkzeug.utils import secure_filename
 
 import config
-from models import FileModel
 from auth import token_required
+from models import FileModel
 
 sys.path.append("./common")
 import common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)
+
 
 @routes_common.route("/")
 def index():
@@ -72,7 +73,7 @@ def load_type_post():
     type = param_map.get("type")
     fileId = param_map.get("fileId")
     if fileId == "automation-setting-file-dir":
-        fileId = config.AUTOMATION_SETTING
+        fileId = config.AUTOMATION_SETTING_PATH
 
     return common_service_load_type(fileId, type)
 
@@ -83,7 +84,7 @@ def load_class_path():
     param_map = request.json
     file_dir = param_map.get("fileDir")
     if file_dir == "automation-popup-setting-file-dir":
-        file_dir = config.AUTOMATION_POPUP_SETTING
+        file_dir = config.AUTOMATION_POPUP_PATH
     return file_dir
 
 
@@ -111,9 +112,9 @@ def select_file_list():
     file_download_dir = request.form.get("fileDownloadDir")
     file_type = request.form.get("type")
     if file_type == "dir":
-        file_download_dir = config.SCREENSHOT_DIR
+        file_download_dir = config.AUTOMATION_SCREENSHOT_PATH
     elif file_type == "fileName":
-        file_download_dir = file_download_dir.replace("screenshot", config.SCREENSHOT_DIR).replace("\\\\", "/")
+        file_download_dir = file_download_dir.replace("screenshot", config.AUTOMATION_SCREENSHOT_PATH).replace("\\\\", "/")
 
     subdirs = []
     utils.sub_full_path_list(file_download_dir, file_download_dir, subdirs, file_type)
@@ -152,4 +153,4 @@ def common_service_load_type(fileId, type):
     if type == "project":
         return send_file(fileId, as_attachment=True)
     else:
-        return send_file(config.SCREENSHOT_DIR + "/" + fileId + "/" + type, as_attachment=True)
+        return send_file(config.AUTOMATION_SCREENSHOT_PATH + "/" + fileId + "/" + type, as_attachment=True)
