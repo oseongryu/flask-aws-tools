@@ -17,7 +17,7 @@ from auth import token_required
 routes_auth = Blueprint("routes_auth", __name__)
 
 
-@routes_auth.route("/auth", methods=["POST"])
+@routes_auth.route("/api/auth", methods=["POST"])
 def auth():
     username = os.getenv("USER_NAME")
     password = os.getenv("PASSWORD")
@@ -32,7 +32,7 @@ def auth():
     return jsonify(message="Missing required query parameters"), 400
 
 
-@routes_auth.route("/protected", methods=["GET"])
+@routes_auth.route("/api/protected", methods=["GET"])
 @token_required
 def protected_route(current_user):
     return jsonify({"message": f"Hello {current_user}!"})
