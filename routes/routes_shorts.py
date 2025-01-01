@@ -1,7 +1,7 @@
 from flask import Blueprint, current_app, jsonify, request
 
 from models import OriginInfoModel, PromptModel, PromptHiStoryModel, StoryModel
-from services import (
+from service.services import (
     delete_origin_info,
     delete_story,
     insert_origin_info,
