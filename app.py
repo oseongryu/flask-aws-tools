@@ -15,8 +15,6 @@ from flask import (
     send_from_directory,
 )
 
-import config
-from auth import token_required
 from routes.routes_auth import routes_auth
 from routes.routes_common import routes_common
 from routes.routes_render import routes_render

@@ -1,7 +1,7 @@
 from flask import Blueprint, current_app, jsonify, request
 
-from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
-from app_service import (
+from models import OriginInfoModel, PromptModel, PromptHiStoryModel, StoryModel
+from services import (
     delete_origin_info,
     delete_story,
     insert_origin_info,
@@ -95,7 +95,7 @@ def query_save_story():
 @token_required
 def query_prompt():
     try:
-        return jsonify(select_table("prompt", "PromptClass")), 200
+        return jsonify(select_table("prompt", "PromptModel")), 200
     except Exception as e:
         return jsonify(message=f"Error: {str(e)}"), 500
 
@@ -104,6 +104,6 @@ def query_prompt():
 @token_required
 def query_prompt_history():
     try:
-        return jsonify(select_table("prompt_history", "PromptHistoryClass")), 200
+        return jsonify(select_table("prompt_history", "PromptHiStoryModel")), 200
     except Exception as e:
         return jsonify(message=f"Error: {str(e)}"), 500

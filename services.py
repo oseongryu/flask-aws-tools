@@ -2,32 +2,32 @@ from datetime import datetime
 
 from flask import Blueprint, current_app, jsonify, request
 
-from app_class import OriginInfoClass, PromptClass, PromptHistoryClass, StoryClass
+from models import OriginInfoModel, PromptModel, PromptHiStoryModel, StoryModel
 
 
 def select_origin_info(storyId):
     query = "SELECT * FROM origin_info"
     if storyId != "":
         query = f"SELECT * FROM origin_info WHERE story_id = {storyId}"
-    class_name = OriginInfoClass.__name__
+    class_name = OriginInfoModel.__name__
     return fetch_and_transform(query, class_name, "")
 
 
 def select_story(storyId):
-    class_name = StoryClass.__name__
+    class_name = StoryModel.__name__
     query = f"SELECT * FROM story WHERE story_id = {storyId}"
     return fetch_and_transform(query, class_name, storyId)
 
 
 def select_prompt():
-    class_name = PromptClass.__name__
+    class_name = PromptModel.__name__
     table_name = "prompt"
     query = f"SELECT * FROM {table_name}"
     return fetch_and_transform(query, class_name, "")
 
 
 def select_prompt_history():
-    class_name = PromptHistoryClass.__name__
+    class_name = PromptHiStoryModel.__name__
     table_name = "prompt_history"
     query = f"SELECT * FROM {table_name}"
     return fetch_and_transform(query, class_name, "")
@@ -127,13 +127,6 @@ def max_story_seq(storyId):
     return val
 
 
-# def delete_origin_info(storyId):
-#     cur = current_app.db.cursor()
-#     delete_query = f"DELETE FROM origin_info WHERE = {storyId}"
-#     cur.execute(delete_query)
-#     current_app.db.commit()
-#     cur.close()
-#     return {'msg': 'success'}
 
 
 def delete_story(storyId):
@@ -154,12 +147,12 @@ def fetch_and_transform(query, class_name, story_id):
 
     column_names = [desc[0] for desc in description]
     result = [dict(zip(column_names, row)) for row in rows]
-    if class_name == "OriginInfoClass":
+    if class_name == "OriginInfoModel":
         transformed_result = [transform_class.from_row(row, row.get("story_id"), select_story).to_dict() for row in result]
-    elif class_name == "StoryClass":
+    elif class_name == "StoryModel":
         transformed_result = [transform_class.from_row(row, story_id).to_dict() for row in result]
-    elif class_name == "PromptClass":
+    elif class_name == "PromptModel":
         transformed_result = [transform_class.from_row(row).to_dict() for row in result]
-    elif class_name == "PromptHistoryClass":
+    elif class_name == "PromptHiStoryModel":
         transformed_result = [transform_class.from_row(row).to_dict() for row in result]
     return transformed_result

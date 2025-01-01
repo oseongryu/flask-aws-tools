@@ -2,7 +2,7 @@ import os
 import platform
 from datetime import datetime
 
-from app_class import FileModel
+from models import FileModel
 
 
 def convert_string_to_datetime(date_str):

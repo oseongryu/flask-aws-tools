@@ -15,7 +15,7 @@ from flask import (
 from werkzeug.utils import secure_filename
 
 import config
-from app_class import FileModel
+from models import FileModel
 from auth import token_required
 
 sys.path.append("./common")

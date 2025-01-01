@@ -1,7 +1,7 @@
 import os
 
 
-class OriginInfoClass:
+class OriginInfoModel:
     def __init__(self, origin_url, origin_title, origin_content, title, content, back_sound_path, story_id, story_items, preview_image_path):
         self.originUrl = origin_url
         self.originTitle = origin_title
@@ -44,7 +44,7 @@ class OriginInfoClass:
         }
 
 
-class StoryClass:
+class StoryModel:
     def __init__(self, seq, height, no, sound_paths, image_path, prompt, content):
         self.seq = seq
         self.height = height
@@ -86,7 +86,7 @@ class StoryClass:
         }
 
 
-class PromptClass:
+class PromptModel:
     def __init__(self, id, user_text, assistant_text, prompt_text, image_path):
         self.id = id
         self.userText = user_text
@@ -116,7 +116,7 @@ class PromptClass:
         }
 
 
-class PromptHistoryClass:
+class PromptHiStoryModel:
     def __init__(self, id, progress_status, user_text, story_id):
         self.id = id
         self.progressStatus = progress_status
