@@ -20,10 +20,10 @@ def python_exec():
         return jsonify(message="Missing required query parameters"), 400
 
     if type == "shorts":
-        python_path = config.PYTHON_SHORTS_TTS_PATH
+        python_path = config.SHORTS_TTS_SCRIPT_PATH
         python_env_path = config.PYTHON_ENV_PATH_MAC
     else:
-        python_path = config.PYTHON_AUTOMATION_PATH
+        python_path = config.AUTOMATION_SCRIPT_PATH
         python_env_path = "python3"
 
     try:

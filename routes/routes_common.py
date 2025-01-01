@@ -46,12 +46,12 @@ def auth_index():
 
 @routes_common.route("/background/<filename>", methods=["GET"])
 def download_background_file(filename):
-    return send_from_directory(config.BACKGROUND_DIR, filename)
+    return send_from_directory(config.SHORTS_BACKGROUND_PATH, filename)
 
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
 def download_shorts_file(location, filename):
-    return send_from_directory(config.SHORTS_DIR + location, filename)
+    return send_from_directory(config.SHORTS_DEFAULT_PATH + location, filename)
 
 
 @routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
@@ -100,7 +100,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1]
         filename = request.values["index"] + file_extension
-        uploadPath = config.SHORTS_DIR + request.values["storyId"]
+        uploadPath = config.SHORTS_DEFAULT_PATH + request.values["storyId"]
         os.makedirs(uploadPath, exist_ok=True)
         file.save(os.path.join(uploadPath, filename))
         return jsonify(message="File successfully uploaded"), 200
