@@ -23,6 +23,25 @@ import common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)
 
+@routes_common.route("/")
+def index():
+    return render_template("aws/index.html")
+
+
+@routes_common.route("/aws/")
+def aws_index():
+    return render_template("aws/index.html")
+
+
+@routes_common.route("/automation/")
+def automation_index():
+    return render_template("automation/index.html")
+
+
+@routes_common.route("/auth/")
+def auth_index():
+    return render_template("auth/index.html")
+
 
 @routes_common.route("/background/<filename>", methods=["GET"])
 def download_background_file(filename):
@@ -68,7 +87,7 @@ def load_class_path():
     return file_dir
 
 
-@routes_common.route("/file/upload-file", methods=["POST"])
+@routes_common.route("/api/file/upload-file", methods=["POST"])
 @token_required
 def upload_file():
     if "uploadFile" not in request.files:
@@ -86,7 +105,7 @@ def upload_file():
         return jsonify(message="File successfully uploaded"), 200
 
 
-@routes_common.route("/file/file-list", methods=["POST"])
+@routes_common.route("/api/file/select-file", methods=["POST"])
 @token_required
 def select_file_list():
     file_download_dir = request.form.get("fileDownloadDir")
@@ -118,7 +137,7 @@ def select_file_list():
     return response_dicts, 200
 
 
-@routes_common.route("/run-command", methods=["POST"])
+@routes_common.route("/api/run-command", methods=["POST"])
 @token_required
 def run_command():
     try:

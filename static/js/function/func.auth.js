@@ -8,7 +8,7 @@ var func_auth = func_auth || (function(){
       auth: async function(userId, userPw) {
         var authHeader = 'Basic ' + btoa(userId + ':' + userPw);
         $.ajax({
-            url: '/auth',
+            url: '/api/auth',
             method: 'POST',
             contentType: 'application/json',
             headers: {

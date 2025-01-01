@@ -19,7 +19,7 @@ from auth import token_required
 routes_shorts = Blueprint("routes_shorts", __name__)
 
 
-@routes_shorts.route("/api/origin-info/search-origin-info", methods=["POST"])
+@routes_shorts.route("/api/shorts/search-origin-info", methods=["POST"])
 @token_required
 def query_origin_info():
     try:
@@ -30,7 +30,7 @@ def query_origin_info():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/origin-info/search-origin-info-list", methods=["POST"])
+@routes_shorts.route("/api/shorts/search-origin-info-list", methods=["POST"])
 @token_required
 def query_origin_info_list():
     try:
@@ -39,7 +39,7 @@ def query_origin_info_list():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/origin-info/save-origin-info", methods=["POST"])
+@routes_shorts.route("/api/shorts/save-origin-info", methods=["POST"])
 @token_required
 def query_save_origin_info():
     try:
@@ -61,7 +61,7 @@ def query_save_origin_info():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/origin-info/delete-origin-info", methods=["POST"])
+@routes_shorts.route("/api/shorts/delete-origin-info", methods=["POST"])
 @token_required
 def query_delete_origin_info():
     try:
@@ -75,7 +75,7 @@ def query_delete_origin_info():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/origin-info/save-story", methods=["POST"])
+@routes_shorts.route("/api/shorts/save-story", methods=["POST"])
 @token_required
 def query_save_story():
     try:
@@ -91,7 +91,7 @@ def query_save_story():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/prompt", methods=["GET"])
+@routes_shorts.route("/api/shorts/prompt", methods=["GET"])
 @token_required
 def query_prompt():
     try:
@@ -100,7 +100,7 @@ def query_prompt():
         return jsonify(message=f"Error: {str(e)}"), 500
 
 
-@routes_shorts.route("/api/prompt-history", methods=["GET"])
+@routes_shorts.route("/api/shorts/prompt-history", methods=["GET"])
 @token_required
 def query_prompt_history():
     try:

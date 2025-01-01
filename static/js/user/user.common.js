@@ -115,7 +115,7 @@ var user_common = user_common || (function(){
             console.dir('fileList');
             var result = {}
             $.ajax({
-                url: `/file/file-list`,
+                url: `/api/file/select-file`,
                 method: "POST",
                 async: false,
                 headers: {

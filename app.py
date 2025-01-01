@@ -17,11 +17,9 @@ from flask import (
 
 from routes.routes_auth import routes_auth
 from routes.routes_common import routes_common
-from routes.routes_render import routes_render
 
 app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
 app.register_blueprint(routes_common)
-app.register_blueprint(routes_render)
 app.register_blueprint(routes_auth)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
