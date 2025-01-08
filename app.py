@@ -15,6 +15,9 @@ from flask import (
     send_from_directory,
 )
 
+import config
+from common.commonlogging import CommonLogging
+import common.commonfunction as cmmfun
 from routes.routes_auth import routes_auth
 from routes.routes_common import routes_common
 
@@ -22,6 +25,12 @@ app = Flask(__name__, template_folder="templates", static_url_path="/static", st
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+cmmfun.make_folder("app")
+cmmfun.make_folder("app/logs")
+
+logFileName = os.path.join(config.SHORTS_PROJECT_PATH, "app/logs", "shorts.log")
+log = CommonLogging(logFileName)
+app.logger = log.logger
 
 load_dotenv()
 
@@ -50,18 +59,13 @@ for routes_item in routes_items:
         else:
             import sqlite3
 
-            DATABASE = os.getenv("SQLITE_DB_PATH")
+            DATABASE = config.SHORTS_DB_PATH
             db = sqlite3.connect(DATABASE, check_same_thread=False)
             app.db = db
     elif "aws" in routes_item:
         from routes.routes_aws import routes_aws
 
         app.register_blueprint(routes_aws)
-
-    elif "automation" in routes_item:
-        from routes.routes_automation import routes_automation
-
-        app.register_blueprint(routes_automation)
 
 
 if __name__ == "__main__":

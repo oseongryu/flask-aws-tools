@@ -1,9 +1,9 @@
 var user_function = user_function || (function(){
 	var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
 	return{
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
         pad: function(number, length){
           var str = '' + number;

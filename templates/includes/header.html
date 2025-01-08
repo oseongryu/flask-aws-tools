@@ -3,45 +3,29 @@
 
 <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
 
-<!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="/static/css/common/bootstrap.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<!-- Ionicons_2.0.1  -->
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="/static/css/common/AdminLTE.min.css">
-<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-<link rel="stylesheet" href="/static/css/common/_all-skins.min.css">
+<head>
+	<!-- JQuery 2.1.4 -->
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- Jquery CDN 로드 : 항상 최신 버전 사용 -->
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<!-- Bootstrap 3.3.5 -->
+	<script src="/static/js/common/bootstrap.min.js"></script>
+	<!-- SlimScroll -->
+	<script src="/static/js/common/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<script src="/static/js/common/fastclick.min.js"></script>
 
-<!-- JQuery 2.1.4 -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<!-- Jquery CDN 로드 : 항상 최신 버전 사용 -->
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<!-- Bootstrap 3.3.5 -->
-<script src="/static/js/common/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="/static/js/common/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="/static/js/common/fastclick.min.js"></script>
-
-<!-- automation viewer -->
-<link rel="stylesheet" href="/static/css/common/cdnjs.cloudflare.com_ajax_libs_viewerjs_1.3.7_viewer.min.css">
-<script src="/static/js/common/cdnjs.cloudflare.com_ajax_libs_viewerjs_1.3.7_viewer.min.js"></script>
-<script src="/static/js/common/unpkg.com_imagesloaded@4.1.4_imagesloaded.pkgd.min.js"></script>
-<script src="/static/js/common/unpkg.com_masonry-layout@4.2.2_dist_masonry.pkgd.min.js"></script>
-
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		const token = user_session.get('token');
-		if (token) {
-			const loginLink = document.getElementById('login-link');
-			if (loginLink) {
-				loginLink.style.display = 'none';
-			}
-		}
-	});
-</script>
+	<!-- Bootstrap 3.3.5 -->
+	<link rel="stylesheet" href="/static/css/common/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<!-- Ionicons_2.0.1  -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="/static/css/common/AdminLTE.min.css">
+	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+	<link rel="stylesheet" href="/static/css/common/_all-skins.min.css">
+</head>
 
 <header class="main-header">
 	<nav class="navbar navbar-static-top">
@@ -60,11 +44,6 @@
 				</ul>
 				<ul class="nav navbar-nav">
 					<li><a href="/aws/">aws</a></li>
-				</ul>
-			</div>
-			<div class="navbar-custom-menu">
-				<ul class="nav navbar-nav">
-					<li id="login-link"><a href="/auth">로그인</a></li>
 				</ul>
 			</div>
 		</div>

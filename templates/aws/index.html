@@ -1,9 +1,9 @@
 {% include 'includes/header.html' %}
-{% include 'includes/global.html' %}
 {% include 'includes/footer.html' %}
 {% include 'includes/modal.html' %}
+{% include 'includes/global.html' %}
 
-<script src="/static/js/function/func.aws.js"></script>
+<script src="/static/js/service/service.aws.js"></script>
 <link rel="stylesheet" href="/static/css/aws/aws.css">
 <script src="/static/components/comp-check-list.js" defer></script>
 <script>
@@ -17,19 +17,19 @@
 		$('#date').val(deployDate);
 
 		$('#btn_search_ip').click(function (event) {
-			func_aws.search_ip();
+			service_aws.awsIp();
 		});
 
 		$('#btn_search_deploy').click(function (event) {
-			func_aws.search_deploy();
+			service_aws.awsDeploy();
 		});
 
 		$('#btn_download').click(function (event) {
-			func_aws.search_alb_download();
+			service_aws.awsAlbDownload();
 		});
 
 		$('#btn_run_command').click(function (event) {
-			func_aws.run_command();
+			service_common.runCommand();
 		});
 	});
 </script>

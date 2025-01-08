@@ -1,8 +1,8 @@
 {% include 'includes/header.html' %}
-{% include 'includes/global.html' %}
 {% include 'includes/footer.html' %}
 {% include 'includes/modal.html' %}
-<script src="/static/js/function/func.auth.js"></script>
+{% include 'includes/global.html' %}
+<script src="/static/js/service/service.auth.js"></script>
 
 <script>
 
@@ -11,7 +11,7 @@
     $('#btnAuth').click(function (e) {
       var userId = $("#userId").val();
       var userPw = $("#userPw").val();
-      func_auth.auth(userId, userPw);
+      service_auth.auth(userId, userPw);
     });
   });
 

@@ -7,14 +7,13 @@ var gSelection = null;
 
 var user_event = user_event || (function(){
 	var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
     return{
         init: function(){
-            console.log('user_event init!!!!!!!!!!!!!!!');
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
-        init_keyboard : function(paramId, url){
-            console.log('user_event init_keyboard');
+        init_keyboard : function(paramId, callback){
+            console.log('init_keyboard (arrow or shift + arrow)');
             window.addEventListener("keydown", (e) => {
 
                 if(e.shiftKey && e.key === 'ArrowUp'){
@@ -24,7 +23,7 @@ var user_event = user_event || (function(){
                             $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                             $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
                             var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                            func_automation.gridRowClick(details_json);
+                            if(typeof callback === 'function') callback(details_json);
                             $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                             break;
                         }
@@ -37,7 +36,7 @@ var user_event = user_event || (function(){
                             $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                             $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
                             var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                            func_automation.gridRowClick(details_json);
+                            if(typeof callback === 'function') callback(details_json);
                             $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                             break;
                         }
@@ -58,8 +57,7 @@ var user_event = user_event || (function(){
                                 $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
                                 var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
+                                if(typeof callback === 'function') callback(details_json);
                                 $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
                             }
@@ -82,8 +80,7 @@ var user_event = user_event || (function(){
                                 $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
                                 var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
+                                if(typeof callback === 'function') callback(details_json);
                                 $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
                             }
@@ -93,26 +90,11 @@ var user_event = user_event || (function(){
                 }
             });
         },
-        init_mouse : function(paramId){
-            console.log('user_event init_mouse');
+        init_mouse_wheel : function(paramId, callback){
+            console.log('init_mouse_wheel (shift + wheel)');
             $(window).bind('wheel', function(event){
                 if (event.shiftKey && event.originalEvent.wheelDelta) {
                     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-                        // scroll up
-                        var rowCnt = $(paramId).prop('rows').length;
-                        for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
-                            if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
-                                $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
-                                $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json =$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
-                                $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-                                break;
-                            }
-                        }
-                    }
-                    else {
                         // scroll down
                         var rowCnt = $(paramId).prop('rows').length;
                         for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
@@ -120,9 +102,23 @@ var user_event = user_event || (function(){
                                 $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
                                 $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
                                 var details_json = $($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
+                                if(typeof callback === 'function') callback(details_json);
                                 $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
+                                break;
+                            }
+                        }
+
+                    }
+                    else {
+                        // scroll up
+                        var rowCnt = $(paramId).prop('rows').length;
+                        for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
+                            if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
+                                $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
+                                $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
+                                var details_json =$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
+                                if(typeof callback === 'function') callback(details_json);
+                                $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
                                 break;
                             }
                         }
@@ -130,8 +126,8 @@ var user_event = user_event || (function(){
                 }
             });
         },
-        init_refresh : function(paramId) {
-            console.log('user_event init_refresh');
+        init_keyboard_enter : function(paramId) {
+            console.log('init_keyboard_enter (enter or shift + enter)');
             window.addEventListener("keydown", (e) => {
                 if (e.key === 'Enter'){
                     console.log('enter')
@@ -148,76 +144,6 @@ var user_event = user_event || (function(){
                     $(paramId).click();
                 }
             };
-        },
-        init_key_up_down : function(paramId){
-            console.log('user_event init_key_up_down');
-            window.addEventListener("keydown", (e) => {
-
-                if(e.shiftKey && e.key === 'ArrowUp'){
-                    var rowCnt = $(paramId).prop('rows').length;
-                    for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
-                        if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
-                            $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
-                            $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                            // var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(5)').find('div').html();
-                            // clickTableRow(details_json);
-                            $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-                            break;
-                        }
-                    }
-                }
-                else if (e.shiftKey && e.key === 'ArrowDown'){
-                    var rowCnt = $(paramId).prop('rows').length;
-                    for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
-                        if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
-                            $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
-                            $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                            // var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(5)').find('div').html();
-                            // clickTableRow(details_json);
-                            $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-                            break;
-                        }
-                    }
-                }
-                else if(e.key === 'ArrowUp'){
-                    try {
-                        if($(window.getSelection()).hasScrollBar() == true) return;
-                        $("#viewOSText").focus();
-                        var rowCnt = $(paramId).prop('rows').length;
-                        for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
-                            if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx-1 > 0) {
-                                $($(paramId).prop('rows')[rowIdx-1]).removeClass('before_searched');
-                                $($(paramId).prop('rows')[rowIdx-1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx-1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
-                                $(paramId).prop('rows')[rowIdx-1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-                                break;
-                            }
-                        }
-                    } catch (e){
-                    }
-                }
-                else if(e.key === 'ArrowDown'){
-                    try {
-                        if($(window.getSelection()).hasScrollBar() == true) return;
-                        $("#viewOSText").focus();
-                        var rowCnt = $(paramId).prop('rows').length;
-                        for (var rowIdx = 0; rowIdx < rowCnt; rowIdx++){
-                            if($(paramId).prop('rows')[rowIdx].classList.length > 0 && rowIdx+1 < rowCnt) {
-                                $($(paramId).prop('rows')[rowIdx]).removeClass('before_searched');
-                                $($(paramId).prop('rows')[rowIdx+1]).addClass('selected').siblings().removeClass('selected');
-                                var details_json=$($(paramId).prop('rows')[rowIdx+1]).find('td:nth-child(4)').find('div').html();
-                                func_automation.gridRowClick(details_json);
-
-                                $(paramId).prop('rows')[rowIdx+1].scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-                                break;
-                            }
-                        }
-                    } catch(e){
-                    }
-                }
-            });
         },
 	}
 })();

@@ -1,9 +1,9 @@
 var user_viewer = user_viewer || (function(){
     var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
     return{
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
         grid : function(e){
             var msnry = new Masonry( '.grid', {

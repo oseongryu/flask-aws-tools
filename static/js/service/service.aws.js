@@ -1,14 +1,14 @@
-var func_aws = func_aws || (function(){
+var service_aws = service_aws || (function(){
     var console = window.console || {log:function(){},error:function(){},warn:function(){},dir:function(){}};
-    console.dir(this.document.currentScript.src);
+    console.log(this.document.currentScript.src);
     return{
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
-        search_ip: async function(event) {
+        awsIp: async function(event) {
             const filterValue = $('#filter_value').val();
             $.ajax({
-                url: '/aws/run-aws-ip',
+                url: '/api/aws/run-aws-ip',
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {
@@ -29,11 +29,11 @@ var func_aws = func_aws || (function(){
                 }
             });
         },
-        search_deploy: async function(event) {
+        awsDeploy: async function(event) {
             const searchDate = $('#date').val();
             console.log('searchDate:', searchDate);
             $.ajax({
-                url: '/aws/run-aws-deploy',
+                url: '/api/aws/run-aws-deploy',
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {
@@ -55,12 +55,12 @@ var func_aws = func_aws || (function(){
                 }
             });
         },
-        search_alb_download: async function(event) {
+        awsAlbDownload: async function(event) {
             const checkList = document.getElementById('checkList');
             const formData = checkList.getFormData();
             $.ajax({
                 type: 'POST',
-                url: '/aws/run-aws-alb',
+                url: '/api/aws/run-aws-alb',
                 headers: {
                     'x-access-tokens': user_session.get('token')
                 },
@@ -79,30 +79,6 @@ var func_aws = func_aws || (function(){
 
             });
         },
-        run_command: async function(){
-            const command = $("#command").val();
-            $.ajax({
-                url: "/run-command",
-                type: "POST",
-                contentType: "application/json",
-                headers: {
-                    'x-access-tokens': user_session.get('token')
-                },
-                data: JSON.stringify({ command: command }),
-                complete : function(response) {
-                    // user_modal.success();
-                    const result = response.responseJSON;
-                    if(!user_function.isEmpty(response) && response.status == 200) {
-                        $("#output").text(result.output || result.error);
-                    }
-                },
-                exception : function(error) {
-                    console.log(error)
-                    user_modal.error();
-                    result = {}
-                },
-            });
-        }
     }
 })();
 

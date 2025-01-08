@@ -12,6 +12,9 @@ from flask import (
     send_file,
     send_from_directory,
 )
+
+# pip install Pillow
+from PIL import Image
 from werkzeug.utils import secure_filename
 
 import config
@@ -26,12 +29,7 @@ routes_common = Blueprint("routes_common", __name__)
 
 @routes_common.route("/")
 def index():
-    return render_template("aws/index.html")
-
-
-@routes_common.route("/aws/")
-def aws_index():
-    return render_template("aws/index.html")
+    return render_template("automation/index.html")
 
 
 @routes_common.route("/automation/")
@@ -39,19 +37,19 @@ def automation_index():
     return render_template("automation/index.html")
 
 
+@routes_common.route("/aws/")
+def aws_index():
+    return render_template("aws/index.html")
+
+
 @routes_common.route("/auth/")
 def auth_index():
     return render_template("auth/index.html")
 
 
-@routes_common.route("/background/<filename>", methods=["GET"])
-def download_background_file(filename):
-    return send_from_directory(config.SHORTS_BACKGROUND_PATH, filename)
-
-
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
 def download_shorts_file(location, filename):
-    return send_from_directory(config.SHORTS_DEFAULT_PATH + location, filename)
+    return send_from_directory(os.path.join(config.SHORTS_RESOURCE_PATH, location), filename)
 
 
 @routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
@@ -72,9 +70,8 @@ def load_type_post():
     param_map = request.json
     type = param_map.get("type")
     fileId = param_map.get("fileId")
-    if fileId == "automation-setting-file-dir":
+    if fileId == "automation-init":
         fileId = config.AUTOMATION_SETTING_PATH
-
     return common_service_load_type(fileId, type)
 
 
@@ -82,13 +79,13 @@ def load_type_post():
 @token_required
 def load_class_path():
     param_map = request.json
-    file_dir = param_map.get("fileDir")
-    if file_dir == "automation-popup-setting-file-dir":
-        file_dir = config.AUTOMATION_POPUP_PATH
-    return file_dir
+    fileId = param_map.get("fileId")
+    if fileId == "automation-popup":
+        fileId = config.AUTOMATION_POPUP_PATH
+    return fileId
 
 
-@routes_common.route("/api/file/upload-file", methods=["POST"])
+@routes_common.route("/api/common/upload-file", methods=["POST"])
 @token_required
 def upload_file():
     if "uploadFile" not in request.files:
@@ -99,25 +96,42 @@ def upload_file():
     if file:
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1]
-        filename = request.values["index"] + file_extension
-        uploadPath = config.SHORTS_DEFAULT_PATH + request.values["storyId"]
+        new_filename = request.values["index"] + ".webp"
+        uploadPath = os.path.join(config.SHORTS_RESOURCE_PATH, request.values["storyId"])
         os.makedirs(uploadPath, exist_ok=True)
-        file.save(os.path.join(uploadPath, filename))
-        return jsonify(message="File successfully uploaded"), 200
+
+        # Save the original file temporarily
+        temp_path = os.path.join(uploadPath, filename)
+        file.save(temp_path)
+
+        # Convert the file to webp format
+        with Image.open(temp_path) as img:
+            webp_path = os.path.join(uploadPath, new_filename)
+            img.save(webp_path, "webp")
+
+        # Remove the temporary file
+        # os.remove(temp_path)
+
+        return jsonify(message="File successfully uploaded and converted to webp"), 200
 
 
-@routes_common.route("/api/file/select-file", methods=["POST"])
+@routes_common.route("/api/common/select-file", methods=["POST"])
 @token_required
 def select_file_list():
-    file_download_dir = request.form.get("fileDownloadDir")
+    filePath = request.form.get("filePath")
+    file_type = request.form.get("type")
+    sort_key = request.form.get("sort_key")
+    sort_order = request.form.get("sort_order")
+    if sort_key is None or sort_key == "":
+        sort_key = "file_dir"
     file_type = request.form.get("type")
     if file_type == "dir":
-        file_download_dir = config.AUTOMATION_SCREENSHOT_PATH
+        filePath = config.AUTOMATION_SCREENSHOT_PATH
     elif file_type == "fileName":
-        file_download_dir = file_download_dir.replace("screenshot", config.AUTOMATION_SCREENSHOT_PATH).replace("\\\\", "/")
+        filePath = filePath.replace("automation-screenshot", config.AUTOMATION_SCREENSHOT_PATH).replace("\\\\", "/")
 
     subdirs = []
-    utils.sub_full_path_list(file_download_dir, file_download_dir, subdirs, file_type)
+    utils.sub_full_path_list(filePath, filePath, subdirs, file_type)
 
     response_objects = [
         FileModel(
@@ -133,12 +147,12 @@ def select_file_list():
         )
         for index, subdir in enumerate(subdirs)
     ]
-    response_objects.sort(key=lambda x: x.file_dir)
+    sort_response_objects(response_objects, sort_key=sort_key, descending=(sort_order == 'desc'))
     response_dicts = [response.to_dict() for response in response_objects]
     return response_dicts, 200
 
 
-@routes_common.route("/api/run-command", methods=["POST"])
+@routes_common.route("/api/common/run-command", methods=["POST"])
 @token_required
 def run_command():
     try:
@@ -153,4 +167,69 @@ def common_service_load_type(fileId, type):
     if type == "project":
         return send_file(fileId, as_attachment=True)
     else:
-        return send_file(config.AUTOMATION_SCREENSHOT_PATH + "/" + fileId + "/" + type, as_attachment=True)
+        return send_file(os.path.join(config.AUTOMATION_SCREENSHOT_PATH, fileId, type), as_attachment=True)
+
+
+@routes_common.route("/api/common/python-exec", methods=["GET", "POST"])
+# @token_required
+def python_exec():
+    if request.method == "GET":
+        exec_type = request.args.get("type")
+        args1 = request.args.get("args1")
+        if not args1 or not type:
+            return jsonify(message="Missing required query parameters"), 400
+    else:
+        param_map = request.json
+        if not param_map:
+            return jsonify(message="Missing required JSON parameters"), 400
+        for key, value in param_map.items():
+            if(key == "type"):
+                exec_type = value
+            elif(key == "args1"):
+                args1 = value
+
+    if exec_type == "shorts":
+        python_path = config.SHORTS_TTS_SCRIPT_PATH
+        python_env_path = config.PYTHON_ENV_PATH_WIN
+    elif exec_type == "automation":
+        python_path = config.AUTOMATION_SCRIPT_PATH
+        python_env_path = "python3"
+    elif exec_type == "automationclear":
+        python_path = config.AUTOMATION_REMOVE_SCRIPT_PATH
+        python_env_path = "python3"
+
+    try:
+        result = run_async_process(python_env_path, python_path, args1)
+        return jsonify(message=f"{result}"), 200
+
+    except Exception as e:
+        return jsonify(message=f"Error executing script: {str(e)}"), 500
+
+
+def run_process(python_env_path, python_path, script_id):
+    try:
+        result = subprocess.run([python_env_path, python_path, script_id], capture_output=True, text=True)
+        return f"Script executed successfully {result.stdout} {result.stderr}"
+
+    except Exception as e:
+        return f"Error executing script: {str(e)}"
+
+
+def run_async_process(python_env_path, python_path, script_id, waiting=False):
+    try:
+        process = subprocess.Popen([python_env_path, python_path, script_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if waiting:
+            stdout, stderr = process.communicate()
+            if process.returncode == 0:
+                print("Command executed successfully")
+                return "Output:" + stdout
+            else:
+                print("Command execution failed")
+                return "Error:" + stderr
+        else:
+            return f"Started process with PID: {process.pid}"
+    except Exception as e:
+        return f"Error: executing script: {str(e)}"
+
+def sort_response_objects(response_objects, sort_key='file_dir', descending=False):
+    response_objects.sort(key=lambda x: getattr(x, sort_key), reverse=descending)

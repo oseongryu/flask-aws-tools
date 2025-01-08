@@ -1,9 +1,9 @@
 var user_json = user_json || (function(){
 	var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
 	return{
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
         // https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
         flatten: function(data) {

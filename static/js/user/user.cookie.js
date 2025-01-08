@@ -1,9 +1,9 @@
 var user_cookie = user_cookie || (function(){
 	var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
     return{
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
 		getCookie: function getCookie(name) {
             let matches = document.cookie.match(new RegExp(

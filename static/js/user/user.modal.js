@@ -1,10 +1,10 @@
 var user_modal = user_modal || (function(){
     var console = window.console || {log:function(){},error:function(){},warn:function(){}};
-    console.dir(this.document.currentScript.src);
+    // console.log(this.document.currentScript.src);
     return{
         settingData: [],
         init: function(e){
-            console.dir(this.document.currentScript.src);
+            console.log(this.document.currentScript.src);
         },
         message: function(text) {
             $('#modalContent').html(text);
@@ -27,19 +27,19 @@ var user_modal = user_modal || (function(){
                 return true;
             });
         },
-        initSettingPopup: async function (fileDir) {
-            var result = await user_common.loadClassPath(fileDir);
-            if(user_modal.settingData !=  null) {
-                user_modal.settingData = JSON.parse(result)
-                user_session.load();
-                user_modal.settingPopup(user_modal.settingData);
-            }
-        },
         val: function(id) {
             var data = user_json.getVal(user_modal.settingData, id);
             return data;
         },
-        settingPopup : function(paramData){
+        initModal: async function (fileDir, type) {
+            var result = await service_common.loadFileJson(fileDir, type);
+            if(user_modal.settingData !=  null) {
+                user_modal.settingData = JSON.parse(result)
+                user_session.load();
+                user_modal.setting(user_modal.settingData);
+            }
+        },
+        setting : function(paramData){
             var settingData = paramData
             $('#btnSetting').click(function(event){
                 var result = user_json.flatten(settingData);

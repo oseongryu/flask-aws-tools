@@ -1,4 +1,3 @@
-<script src="/static/js/user/user.common.js"></script>
 <script src="/static/js/user/user.cookie.js"></script>
 <script src="/static/js/user/user.event.js"></script>
 <script src="/static/js/user/user.function.js"></script>
@@ -6,22 +5,16 @@
 <script src="/static/js/user/user.modal.js"></script>
 <script src="/static/js/user/user.session.js"></script>
 <script src="/static/js/user/user.viewer.js"></script>
+<script src="/static/js/service/service.common.js"></script>
 
 <script>
-    // $(document).ready(function() {
-    //     if (typeof customJsonDataAutomation !== "undefined") {
-    //     	func_automation.customData = customJsonDataAutomation;
-    //     } else {
-    //     	func_automation.customData = gJsonDataAutomation;
-    //     }
-    // });
 
     document.addEventListener('DOMContentLoaded', function () {
         const currentPath = window.location.pathname;
         if (!currentPath.includes('auth')) {
-            console.log(currentPath);
             const token = user_session.get('token');
             if (!token) {
+                console.log(currentPath);
                 window.location.href = '/auth';
             }
         }

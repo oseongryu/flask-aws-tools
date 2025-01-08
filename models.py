@@ -23,7 +23,7 @@ class OriginInfoModel:
             origin_content=row.get("origin_content"),
             title=row.get("title"),
             content=row.get("content"),
-            back_sound_path=f"{base_url}/background/background-3.mp3",
+            back_sound_path=f"{base_url}/shorts/background/background-3.mp3",
             story_id=story_id,
             story_items=story_info_func(story_id),
             preview_image_path=f"{base_url}/shorts/{story_id}/1.webp",
@@ -142,6 +142,7 @@ class PromptHiStoryModel:
             "storyId": self.storyId,
         }
 
+
 class FileModel:
     def __init__(self, file_id, file_name, file_path, file_dir, file_parent_dir, file_custom_dir, depth1_dir, depth2_dir, depth3_dir):
         self.file_id = file_id
@@ -164,5 +165,5 @@ class FileModel:
             "fileCustomDir": self.file_custom_dir,
             "depth1Dir": self.depth1_dir,
             "depth2Dir": self.depth2_dir,
-            "depth3Dir": self.depth3_dir
+            "depth3Dir": self.depth3_dir,
         }
