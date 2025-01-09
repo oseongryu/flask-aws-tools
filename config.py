@@ -3,15 +3,15 @@ import sys
 
 import common.commonfunction as utils
 
-userHomeUseYn = True
+userHomeUseYn = False
 current_directory = os.getcwd()
 project_name = os.path.basename(current_directory)
 
 PYTHON_ENV_PATH_WIN = "python"
 PYTHON_ENV_PATH_MAC = utils.add_user_home_path(f"/git/{project_name}/venv/bin/python3", userHomeUseYn)
 
-SHORTS_RESOURCE_PATH = utils.add_user_home_path("/DEV/shorts", False)
-SHORTS_DB_PATH = utils.add_user_home_path("/DEV/shorts/database/test.db", False)
+SHORTS_RESOURCE_PATH = utils.add_user_home_path("/app/shorts", userHomeUseYn)
+SHORTS_DB_PATH = utils.add_user_home_path("/app/shorts/database/test.db", userHomeUseYn)
 SHORTS_PROJECT_PATH = utils.add_user_home_path(f"/git/{project_name}", userHomeUseYn)
 SHORTS_TTS_SCRIPT_PATH = utils.add_user_home_path(f"/git/{project_name}/service/shorts/tts_story_gtts.py", userHomeUseYn)
 
