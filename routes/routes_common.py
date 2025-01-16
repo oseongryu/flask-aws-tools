@@ -18,12 +18,11 @@ from flask import (
 from PIL import Image
 from werkzeug.utils import secure_filename
 
-sys.path.append("../")
 import config
 from auth import token_required
 from models import FileModel
 
-sys.path.append("./common")
+
 import common.common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)

@@ -11,8 +11,9 @@ import uuid
 import boto3
 from dotenv import load_dotenv
 
-sys.path.append("./common")
-import common_utils as utils
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../common")))
+import common.common_utils as utils
 
 load_dotenv()
 region_name = os.getenv("REGION_NAME")
