@@ -8,6 +8,8 @@
 
   $(document).ready(function () {
 
+    user_event.init_keyboard_enter('#btnAuth');
+
     $('#btnAuth').click(function (e) {
       var userId = $("#userId").val();
       var userPw = $("#userPw").val();
