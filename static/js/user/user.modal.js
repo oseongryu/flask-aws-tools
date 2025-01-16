@@ -68,6 +68,23 @@ var user_modal = user_modal || (function(){
                 $("#settingModal").modal('hide');
             });
         },
+        initLogModal: async function () {
+            console.log("logModal");
+            $("#btn_log").click(function (event) {
+            const logWindow = window.open("", "LogWindow", "width=600,height=400");
+                logWindow.document.write("<html><head><title>Real-time Log</title></head><body><div id='log'></div></body></html>");
+                const logElement = logWindow.document.getElementById("log");
+                const eventSource = new EventSource("/api/common/real-log");
+                eventSource.onmessage = function (event) {
+                var text = event.data;
+                if (text.includes("/api/")) {
+                    const newElement = document.createElement("div");
+                    newElement.textContent = event.data;
+                    logElement.insertBefore(newElement, logElement.firstChild);
+                }
+                };
+            });
+        }
     }
 })();
 

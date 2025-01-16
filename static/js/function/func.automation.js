@@ -3,15 +3,15 @@ var func_automation = func_automation || (function(){
     console.log(this.document.currentScript.src);
     return{
         settingData: [],
-        AUTOMATION_SCREENSHOT_PATH: "automation-screenshot",
+        PRJ_SCREENSHOT_PATH: "automation-screenshot",
         AUTOMATION_INIT_PATH: "automation-init",
-        AUTOMATION_POPUP_PATH: "automation-popup",
+        AUTO_POPUP_JSON_PATH: "automation-popup",
         init: function(e){
             console.log(this.document.currentScript.src);
         },
         gridRowClick: function (fileCustomDir) {
             user_viewer.clean();
-            func_automation.screenshotList(func_automation.AUTOMATION_SCREENSHOT_PATH + fileCustomDir, 'fileName');
+            func_automation.screenshotList(func_automation.PRJ_SCREENSHOT_PATH + fileCustomDir, 'fileName');
         },
         clearGrid: function (defaultViewId, defaultTable) {
             $(defaultViewId).html(`<table id=${defaultTable} class='table no-margin'></table>`);

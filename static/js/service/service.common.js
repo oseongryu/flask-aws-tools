@@ -187,6 +187,34 @@ var service_common = service_common || (function(){
                     result = {}
                 },
             });
+        },
+        fileLog: async function () {
+            $.ajax({
+                url: "/api/common/file-log",
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    'x-access-tokens': user_session.get('token')
+                },
+                complete : function(response) {
+                    // user_modal.success();
+                    const result = response.responseJSON;
+                    const responseList = $('#response_list');
+                    responseList.empty();
+                    result.log_contents.forEach((item, index) => {
+                        if (item.includes("/api/")) {
+                        const li = $('<p></p>').text(`${item}`);
+                        responseList.append(li);
+                        }
+
+                    });
+                },
+                exception : function(error) {
+                    console.log(error)
+                    user_modal.error();
+                    result = {}
+                },
+            });
         }
     }
 })();

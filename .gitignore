@@ -18,6 +18,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.sql
+service/automation
+service/fredit
+service/shorts
+service/tts
+common/commonselenium.py
+common/commoncrawling.py
 
 # C extensions
 *.so

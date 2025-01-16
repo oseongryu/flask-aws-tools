@@ -20,17 +20,18 @@
 		user_event.init_mouse_wheel('#processResultTable', func_automation.gridRowClick);
 
 		func_automation.processList(func_automation.AUTOMATION_INIT_PATH, 'project');
-		user_modal.initModal(func_automation.AUTOMATION_POPUP_PATH, 'json');
+		user_modal.initModal(func_automation.AUTO_POPUP_JSON_PATH, 'json');
 
 		$('#btnRefresh').click(function (e) {
 			user_viewer.clean();
-			func_automation.processResultList(func_automation.AUTOMATION_SCREENSHOT_PATH, 'dir');
+			func_automation.processResultList(func_automation.PRJ_SCREENSHOT_PATH, 'dir');
 		});
 
 		$('#btnClear').click(function (e) {
 			var selectedVal = $('#processResultTable tr.selected').find('td:nth-child(4)').find('div').html();
 			service_common.pythonExecPost("automationclear", selectedVal);
 		});
+		user_modal.initLogModal();
 
 	});
 
@@ -82,6 +83,7 @@
 								<div class="box-header with-border">
 									<h4 class="box-title">Viewer</h4>
 									<div class="box-tools pull-right">
+										<input type="button" id="btn_log" class="btn btn-primary" value="Log" />
 									</div>
 								</div>
 								<div class="box-body" style="height: 750px;">

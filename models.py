@@ -38,7 +38,7 @@ class OriginInfoModel:
             "title": self.title,
             "content": self.content,
             "backSoundPath": self.backSoundPath,
-            "storyId": self.storyId,
+            "storyId": str(self.storyId),
             "storyItems": self.storyItems,
             "previewImagePath": self.previewImagePath,
         }

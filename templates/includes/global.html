@@ -8,15 +8,14 @@
 <script src="/static/js/service/service.common.js"></script>
 
 <script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const currentPath = window.location.pathname;
-        if (!currentPath.includes('auth')) {
-            const token = user_session.get('token');
-            if (!token) {
-                console.log(currentPath);
-                window.location.href = '/auth';
-            }
-        }
-    });
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    if (!currentPath.includes("auth")) {
+      const token = user_session.get("token");
+      if (!token) {
+        console.log(currentPath);
+        window.location.href = "/auth";
+      }
+    }
+  });
 </script>

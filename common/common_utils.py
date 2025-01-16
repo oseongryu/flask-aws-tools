@@ -79,7 +79,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                 continue
             elif os.path.isdir(file_path):
                 parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
-                if not parent_dir == "fredit":
+                if not parent_dir == "app":
                     dto = FileModel(
                         file_id=row_idx,
                         file_name=file_name,

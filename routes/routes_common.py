@@ -2,7 +2,7 @@ import json
 import os
 import subprocess
 import sys
-
+import time
 from flask import (
     Blueprint,
     current_app,
@@ -11,18 +11,20 @@ from flask import (
     request,
     send_file,
     send_from_directory,
+    Response
 )
 
 # pip install Pillow
 from PIL import Image
 from werkzeug.utils import secure_filename
 
+sys.path.append("../")
 import config
 from auth import token_required
 from models import FileModel
 
 sys.path.append("./common")
-import common_utils as utils
+import common.common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)
 
@@ -46,10 +48,13 @@ def aws_index():
 def auth_index():
     return render_template("auth/index.html")
 
+@routes_common.route("/log/")
+def file_log_index():
+    return render_template("common/log_index.html")
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
 def download_shorts_file(location, filename):
-    return send_from_directory(os.path.join(config.SHORTS_RESOURCE_PATH, location), filename)
+    return send_from_directory(os.path.join(config.SHORTS_PATH, location), filename)
 
 
 @routes_common.route("/load-type/<type>/<fileId>", methods=["GET"])
@@ -71,7 +76,7 @@ def load_type_post():
     type = param_map.get("type")
     fileId = param_map.get("fileId")
     if fileId == "automation-init":
-        fileId = config.AUTOMATION_SETTING_PATH
+        fileId = config.AUTO_STATIC_SETTING_PATH
     return common_service_load_type(fileId, type)
 
 
@@ -81,7 +86,7 @@ def load_class_path():
     param_map = request.json
     fileId = param_map.get("fileId")
     if fileId == "automation-popup":
-        fileId = config.AUTOMATION_POPUP_PATH
+        fileId = config.AUTO_POPUP_JSON_PATH
     return fileId
 
 
@@ -97,7 +102,7 @@ def upload_file():
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1]
         new_filename = request.values["index"] + ".webp"
-        uploadPath = os.path.join(config.SHORTS_RESOURCE_PATH, request.values["storyId"])
+        uploadPath = os.path.join(config.SHORTS_PATH, request.values["storyId"])
         os.makedirs(uploadPath, exist_ok=True)
 
         # Save the original file temporarily
@@ -126,9 +131,9 @@ def select_file_list():
         sort_key = "file_dir"
     file_type = request.form.get("type")
     if file_type == "dir":
-        filePath = config.AUTOMATION_SCREENSHOT_PATH
+        filePath = config.PRJ_SCREENSHOT_PATH
     elif file_type == "fileName":
-        filePath = filePath.replace("automation-screenshot", config.AUTOMATION_SCREENSHOT_PATH).replace("\\\\", "/")
+        filePath = filePath.replace("automation-screenshot", config.PRJ_SCREENSHOT_PATH).replace("\\\\", "/")
 
     subdirs = []
     utils.sub_full_path_list(filePath, filePath, subdirs, file_type)
@@ -147,7 +152,7 @@ def select_file_list():
         )
         for index, subdir in enumerate(subdirs)
     ]
-    sort_response_objects(response_objects, sort_key=sort_key, descending=(sort_order == 'desc'))
+    sort_response_objects(response_objects, sort_key=sort_key, descending=(sort_order == "desc"))
     response_dicts = [response.to_dict() for response in response_objects]
     return response_dicts, 200
 
@@ -167,8 +172,33 @@ def common_service_load_type(fileId, type):
     if type == "project":
         return send_file(fileId, as_attachment=True)
     else:
-        return send_file(os.path.join(config.AUTOMATION_SCREENSHOT_PATH, fileId, type), as_attachment=True)
+        return send_file(os.path.join(config.PRJ_SCREENSHOT_PATH, fileId, type), as_attachment=True)
 
+
+@routes_common.route("/api/common/file-log", methods=["POST"])
+def filelog():
+    try:
+        with open("/app/logs/shorts.log", "r") as log_file:
+            log_contents = log_file.readlines()
+        log_contents.reverse()
+    except Exception as e:
+        log_contents = [f"Error reading log file: {str(e)}"]
+    return jsonify({ "log_contents": log_contents})
+
+@routes_common.route('/api/common/real-log')
+def logs():
+    return Response(generate_log(), mimetype='text/event-stream')
+
+
+def generate_log():
+    log_file_path = os.path.join(config.PRJ_LOG_PATH, "shorts.log")
+    with open(log_file_path, 'r') as f:
+        while True:
+            line = f.readline()
+            if not line:
+                time.sleep(1)
+                continue
+            yield f"data:{line}\n\n"
 
 @routes_common.route("/api/common/python-exec", methods=["GET", "POST"])
 # @token_required
@@ -183,41 +213,41 @@ def python_exec():
         if not param_map:
             return jsonify(message="Missing required JSON parameters"), 400
         for key, value in param_map.items():
-            if(key == "type"):
+            if key == "type":
                 exec_type = value
-            elif(key == "args1"):
+            elif key == "args1":
                 args1 = value
+
+    python_env_path = config.PYTHON_ENV_PATH_WIN
 
     if exec_type == "shorts":
         python_path = config.SHORTS_TTS_SCRIPT_PATH
-        python_env_path = config.PYTHON_ENV_PATH_WIN
     elif exec_type == "automation":
         python_path = config.AUTOMATION_SCRIPT_PATH
-        python_env_path = "python3"
     elif exec_type == "automationclear":
         python_path = config.AUTOMATION_REMOVE_SCRIPT_PATH
-        python_env_path = "python3"
 
     try:
-        result = run_async_process(python_env_path, python_path, args1)
+        result = run_process(python_env_path, python_path, args1)
         return jsonify(message=f"{result}"), 200
 
     except Exception as e:
         return jsonify(message=f"Error executing script: {str(e)}"), 500
 
 
-def run_process(python_env_path, python_path, script_id):
+def run_process(python_env_path, python_path, args1):
     try:
-        result = subprocess.run([python_env_path, python_path, script_id], capture_output=True, text=True)
+        print(f"Executing script: {python_env_path} {python_path} {args1}")
+        result = subprocess.run([python_env_path, python_path, args1], capture_output=True, text=True)
         return f"Script executed successfully {result.stdout} {result.stderr}"
 
     except Exception as e:
         return f"Error executing script: {str(e)}"
 
 
-def run_async_process(python_env_path, python_path, script_id, waiting=False):
+def run_async_process(python_env_path, python_path, args1, waiting=False):
     try:
-        process = subprocess.Popen([python_env_path, python_path, script_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen([python_env_path, python_path, args1], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if waiting:
             stdout, stderr = process.communicate()
             if process.returncode == 0:
@@ -231,5 +261,6 @@ def run_async_process(python_env_path, python_path, script_id, waiting=False):
     except Exception as e:
         return f"Error: executing script: {str(e)}"
 
-def sort_response_objects(response_objects, sort_key='file_dir', descending=False):
+
+def sort_response_objects(response_objects, sort_key="file_dir", descending=False):
     response_objects.sort(key=lambda x: getattr(x, sort_key), reverse=descending)

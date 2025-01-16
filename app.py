@@ -15,9 +15,9 @@ from flask import (
     send_from_directory,
 )
 
+import common.commonfunction as cmmfun
 import config
 from common.commonlogging import CommonLogging
-import common.commonfunction as cmmfun
 from routes.routes_auth import routes_auth
 from routes.routes_common import routes_common
 
@@ -25,10 +25,9 @@ app = Flask(__name__, template_folder="templates", static_url_path="/static", st
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-cmmfun.make_folder("app")
-cmmfun.make_folder("app/logs")
+cmmfun.make_folder(config.PRJ_LOG_PATH)
 
-logFileName = os.path.join(config.SHORTS_PROJECT_PATH, "app/logs", "shorts.log")
+logFileName = os.path.join(config.PRJ_LOG_PATH, "shorts.log")
 log = CommonLogging(logFileName)
 app.logger = log.logger
 

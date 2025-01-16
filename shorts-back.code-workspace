@@ -35,7 +35,11 @@
     "black-formatter.args": ["--line-length", "240"],
     "workbench.colorCustomizations": {},
     "[html]": {
-      "editor.defaultFormatter": "vscode.html-language-features"
+      "editor.defaultFormatter": "vscode.html-language-features",
+      "editor.formatOnType": true,
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "prettier.printWidth": 200
     },
     "[javascript]": {
       "editor.formatOnType": false,
