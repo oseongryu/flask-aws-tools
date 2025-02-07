@@ -77,7 +77,6 @@ def run_ssh(env_name, host_index, service_name):
                 final_username = prd_was_username
                 final_password = prd_was_password
 
-
         elif env_name == "qa":
             proxy_host = proxy_hosts[1]
             if service_name == "api":

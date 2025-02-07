@@ -1,18 +1,19 @@
 import os
 import platform
+import sys
 
 import requests
 from bs4 import BeautifulSoup
-import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from common.commonlogging import CommonLogging
 from dotenv import load_dotenv
 from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+
+from common.commonlogging import CommonLogging
 
 
 class YouTubeScraper:
