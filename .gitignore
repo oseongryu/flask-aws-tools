@@ -1,28 +1,18 @@
-#
-.idea
-temp.html
-was/
-screenshot/
-app/
-automation.exe
-work/Tomcat/
-drawing-app/
-drawing-app.war
-jdk
+# custom
+service/automation
+service/shorts
+service/tts
+common/commonselenium.py
+common/commoncrawling.py
+
 .DS_Store
 geckodriver
-secrets_prd.json
 *.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.sql
-service/automation
-service/shorts
-service/tts
-common/commonselenium.py
-common/commoncrawling.py
 
 # C extensions
 *.so
