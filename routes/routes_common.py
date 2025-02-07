@@ -3,27 +3,26 @@ import os
 import subprocess
 import sys
 import time
+
 from flask import (
     Blueprint,
+    Response,
     current_app,
     jsonify,
     render_template,
     request,
     send_file,
     send_from_directory,
-    Response
 )
 
 # pip install Pillow
 from PIL import Image
 from werkzeug.utils import secure_filename
 
+import common.common_utils as utils
 import config
 from auth import token_required
 from models import FileModel
-
-
-import common.common_utils as utils
 
 routes_common = Blueprint("routes_common", __name__)
 
@@ -47,9 +46,21 @@ def aws_index():
 def auth_index():
     return render_template("auth/index.html")
 
+
 @routes_common.route("/log/")
 def file_log_index():
     return render_template("common/log_index.html")
+
+
+@routes_common.route("/video/video-index/")
+def video_index1():
+    return render_template("video/video-index/index.html")
+
+
+@routes_common.route("/video/video-gen/")
+def video_gen1():
+    return render_template("video/video-gen/index.html")
+
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
 def download_shorts_file(location, filename):
@@ -182,22 +193,24 @@ def filelog():
         log_contents.reverse()
     except Exception as e:
         log_contents = [f"Error reading log file: {str(e)}"]
-    return jsonify({ "log_contents": log_contents})
+    return jsonify({"log_contents": log_contents})
 
-@routes_common.route('/api/common/real-log')
+
+@routes_common.route("/api/common/real-log")
 def logs():
-    return Response(generate_log(), mimetype='text/event-stream')
+    return Response(generate_log(), mimetype="text/event-stream")
 
 
 def generate_log():
     log_file_path = os.path.join(config.PRJ_LOG_PATH, "shorts.log")
-    with open(log_file_path, 'r') as f:
+    with open(log_file_path, "r") as f:
         while True:
             line = f.readline()
             if not line:
                 time.sleep(1)
                 continue
             yield f"data:{line}\n\n"
+
 
 @routes_common.route("/api/common/python-exec", methods=["GET", "POST"])
 # @token_required

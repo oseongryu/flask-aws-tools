@@ -24,7 +24,7 @@ from routes.routes_common import routes_common
 sys.path.append("./common")
 sys.path.append("./service")
 
-app = Flask(__name__, template_folder="templates", static_url_path="/static", static_folder="static")
+app = Flask(__name__, template_folder="static", static_url_path="/static", static_folder="static")
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")

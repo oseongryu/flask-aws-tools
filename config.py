@@ -1,5 +1,6 @@
 import os
 import platform
+import posixpath
 import sys
 
 import common.commonfunction as utils
@@ -12,18 +13,18 @@ project_name = os.path.basename(current_directory)
 
 GPT_HTML_PATH = utils.add_user_home_path("/Downloads/temp.html", True)
 
-
 ROOT_PATH = utils.add_user_home_path("/app", rootUserHomeUseYn)
-PRJ_LOG_PATH = utils.add_user_home_path("/app/logs", rootUserHomeUseYn)
-PRJ_SCREENSHOT_PATH = utils.add_user_home_path("/app/screenshot", rootUserHomeUseYn)
+FREDIT_PATH = "fredit"
+
+PRJ_LOG_PATH = posixpath.join(ROOT_PATH, FREDIT_PATH, "logs")
+PRJ_SCREENSHOT_PATH = posixpath.join(ROOT_PATH, FREDIT_PATH, "screenshot")
+AUTO_STATIC_IMG_PATH = posixpath.join(ROOT_PATH, FREDIT_PATH, "static/fredit/img")
+AUTO_STATIC_SETTING_PATH = posixpath.join(ROOT_PATH, FREDIT_PATH, "static/fredit/setting.json")
+AUTO_POPUP_JSON_PATH = "/static/js/data/data_automation.json"
 
 SHORTS_PATH = utils.add_user_home_path("/app/shorts", rootUserHomeUseYn)
 SHORTS_DB_PATH = utils.add_user_home_path("/app/shorts/database/test.db", rootUserHomeUseYn)
 
-AUTO_STATIC_IMG_PATH = utils.add_user_home_path("/app/static/fredit/img", rootUserHomeUseYn)
-AUTO_STATIC_SETTING_PATH = utils.add_user_home_path("/app/static/fredit/setting.json", rootUserHomeUseYn)
-
-AUTO_POPUP_JSON_PATH = "/static/js/data/data_automation.json"
 
 PYTHON_ENV_PATH_WIN = "python"
 PYTHON_ENV_PATH_MAC = utils.add_user_home_path(f"/git/{project_name}/venv/bin/python3", gitUserHomeUseYn)

@@ -2,7 +2,7 @@ import os
 import platform
 from datetime import datetime
 
-
+import config
 from models import FileModel
 
 
@@ -80,7 +80,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                 continue
             elif os.path.isdir(file_path):
                 parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
-                if not parent_dir == "app":
+                if not parent_dir == config.FREDIT_PATH:
                     dto = FileModel(
                         file_id=row_idx,
                         file_name=file_name,
