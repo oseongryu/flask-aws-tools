@@ -19,7 +19,7 @@ from flask import (
 from PIL import Image
 from werkzeug.utils import secure_filename
 
-import common.common_utils as utils
+import common.commonfunction as cmmfun
 import config
 from auth import token_required
 from models import FileModel
@@ -146,7 +146,7 @@ def select_file_list():
         filePath = filePath.replace("automation-screenshot", config.PRJ_SCREENSHOT_PATH).replace("\\\\", "/")
 
     subdirs = []
-    utils.sub_full_path_list(filePath, filePath, subdirs, file_type)
+    cmmfun.sub_full_path_list(filePath, filePath, subdirs, file_type)
 
     response_objects = [
         FileModel(

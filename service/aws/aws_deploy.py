@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../common")))
-import common.common_utils as utils
+import common.commonfunction as cmmfun
 
 load_dotenv()
 region_name = os.getenv("REGION_NAME")
@@ -22,9 +22,9 @@ ex_targets = ["autoscaling"]
 
 
 def run_deploy(search_dt):
-    search_date = utils.convert_string_to_datetime(search_dt)
+    search_date = cmmfun.convert_string_to_datetime(search_dt)
 
-    print("--- {} 배포상태 확인 ----".format(utils.dateFormat(search_date, "ymd")))
+    print("--- {} 배포상태 확인 ----".format(cmmfun.dateFormat(search_date, "ymd")))
     deploy_list = []
     for deployment_id in deployments:
 
@@ -38,13 +38,13 @@ def run_deploy(search_dt):
         createTime = createTime + timedelta(hours=9)
         applicationName = info.get("applicationName")
         deploymentGroupName = info.get("deploymentGroupName")
-        displaytime = utils.dateFormat(createTime)
+        displaytime = cmmfun.dateFormat(createTime)
         target_time = createTime
 
         now_timestamp = search_date.timestamp()
         target_timestamp = target_time.timestamp()
         if now_timestamp < target_timestamp:
-            if utils.check_any_ex_targets_satisfied(creator, ex_targets) == False:
+            if cmmfun.check_any_ex_targets_satisfied(creator, ex_targets) == False:
                 print("{}: {}, {}".format(deploymentGroupName, displaytime, status))
                 deploy_list.append({"deploymentGroupName": deploymentGroupName, "displaytime": displaytime, "status": status})
         else:
@@ -54,5 +54,5 @@ def run_deploy(search_dt):
 
 if __name__ == "__main__":
     search_date = datetime.now() - timedelta(days=7)
-    search_date_str = utils.dateFormat(search_date, "ymd")
+    search_date_str = cmmfun.dateFormat(search_date, "ymd")
     run_deploy(search_date_str)

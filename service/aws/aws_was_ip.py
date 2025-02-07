@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../common")))
-import common.common_utils as utils
+import common.commonfunction as cmmfun
 
 load_dotenv()
 region_name = os.getenv("REGION_NAME")
@@ -44,7 +44,7 @@ def run_aws_ip():
             tags = instance.tags
             for tag in tags:
                 value = tag["Value"]
-                if utils.check_any_ex_targets_satisfied(value, ex_targets) == False and utils.check_any_targets_satisfied(value, targets):
+                if cmmfun.check_any_ex_targets_satisfied(value, ex_targets) == False and utils.check_any_targets_satisfied(value, targets):
                     arr_list.append({"name": value, "ip": instance.private_ip_address})
         except Exception as e:
             print(e)
