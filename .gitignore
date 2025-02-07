@@ -19,7 +19,6 @@ __pycache__/
 *$py.class
 *.sql
 service/automation
-service/fredit
 service/shorts
 service/tts
 common/commonselenium.py
