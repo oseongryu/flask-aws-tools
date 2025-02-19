@@ -12,7 +12,7 @@ import boto3
 from dotenv import load_dotenv
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../common")))
+
 import common.commonfunction as cmmfun
 
 load_dotenv()

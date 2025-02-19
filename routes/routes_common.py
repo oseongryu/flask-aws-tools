@@ -29,37 +29,7 @@ routes_common = Blueprint("routes_common", __name__)
 
 @routes_common.route("/")
 def index():
-    return render_template("automation/index.html")
-
-
-@routes_common.route("/automation/")
-def automation_index():
-    return render_template("automation/index.html")
-
-
-@routes_common.route("/aws/")
-def aws_index():
-    return render_template("aws/index.html")
-
-
-@routes_common.route("/auth/")
-def auth_index():
-    return render_template("auth/index.html")
-
-
-@routes_common.route("/log/")
-def file_log_index():
-    return render_template("common/log_index.html")
-
-
-@routes_common.route("/video/video-index/")
-def video_index1():
-    return render_template("video/video-index/index.html")
-
-
-@routes_common.route("/video/video-gen/")
-def video_gen1():
-    return render_template("video/video-gen/index.html")
+    return render_template("index.html")
 
 
 @routes_common.route("/shorts/<location>/<filename>", methods=["GET"])
@@ -202,7 +172,7 @@ def logs():
 
 
 def generate_log():
-    log_file_path = os.path.join(config.PRJ_LOG_PATH, "shorts.log")
+    log_file_path = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
     with open(log_file_path, "r") as f:
         while True:
             line = f.readline()

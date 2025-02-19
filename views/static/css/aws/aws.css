@@ -1,0 +1,14 @@
+
+
+.hours-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px;
+}
+.hours-list label {
+  width: 50px;
+  margin: 5px;
+}
+.result {
+  margin-top: 20px;
+}

@@ -11,8 +11,9 @@ from datetime import datetime
 import psutil
 import requests
 
-import config
 from models import FileModel
+
+AUTO_ROOT = "automation"
 
 
 def lpad(i, width, fillchar="0"):
@@ -165,13 +166,6 @@ def dateFormat(time, type=""):
         return time.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def add_user_home_path(value, use_yn):
-    result = value
-    if use_yn:
-        result = os.path.expanduser("~") + value
-    return result
-
-
 def check():
     if is_windows():
         print("This is Windows")
@@ -215,7 +209,7 @@ def sub_full_path_list(original_file_dir, file_dir, result, type):
                 continue
             elif os.path.isdir(file_path):
                 parent_dir = os.path.basename(os.path.dirname(os.path.dirname(file_path)))
-                if not parent_dir == config.FREDIT_PATH:
+                if not parent_dir == AUTO_ROOT:
                     dto = FileModel(
                         file_id=row_idx,
                         file_name=file_name,

@@ -1,3 +1,9 @@
+## pycache
+
+```bash
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+```
+
 ## ER-Diagram
 
 ```mermaid
@@ -110,4 +116,8 @@ python setup.py py2app -A
 
 ```
 https://py2app.readthedocs.io/en/latest/tutorial.html#building-for-deployment
+```
+
+```
+https://raw.githubusercontent.com/oseongryu/til/refs/heads/main/public/img/android/001.png
 ```

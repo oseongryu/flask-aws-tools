@@ -24,22 +24,26 @@ from routes.routes_common import routes_common
 sys.path.append("./common")
 sys.path.append("./service")
 
-app = Flask(__name__, template_folder="static", static_url_path="/static", static_folder="static")
+template_folder_name = "dist"
+views_folder = os.path.join(os.path.dirname(__file__), ".", template_folder_name)
+
+# app = Flask(__name__, template_folder=template_folder_name, static_url_path="/static", static_folder="views/static")
+app = Flask(__name__, template_folder="dist", static_url_path="/static", static_folder="dist/static")
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-cmmfun.make_folder(config.PRJ_LOG_PATH)
-
-logFileName = os.path.join(config.PRJ_LOG_PATH, "shorts.log")
-log = CommonLogging(logFileName)
-app.logger = log.logger
+cmmfun.make_folder(config.PRJ_AUTO_PATH)
+cmmfun.make_folder(config.PRJ_AUTO_LOG_PATH)
+logFileName = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
+# log = CommonLogging(logFileName)
+# app.logger = log.logger
 
 load_dotenv()
 
 # Load and parse the array from the .env file
 routes_items = os.getenv("ROUTES_ITEM", "").split(",")
 
-db_name = "sqlite"
+db_name = "mysql"
 for routes_item in routes_items:
     if "shorts" in routes_item:
 
@@ -56,6 +60,8 @@ for routes_item in routes_items:
             app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
             app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
             mysql = MySQL(app)
+            # RuntimeError: Working outside of application context.
+            app.app_context().push()
             db = mysql.connection
             app.db = db
         else:
@@ -69,6 +75,22 @@ for routes_item in routes_items:
 
         app.register_blueprint(routes_aws)
 
+
+def create_routes():
+    for root, dirs, files in os.walk(views_folder):
+        for file in files:
+            if file.endswith(".html"):
+                relative_path = os.path.relpath(os.path.join(root, file), views_folder)
+                route_path = "/" + os.path.splitext(relative_path)[0].replace("\\", "/")
+
+                def route_func(data=route_path + ".html"):
+                    return render_template(data)
+
+                if "/includes" not in route_path:
+                    app.add_url_rule(route_path, route_path, route_func)
+
+
+create_routes()
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8091)
