@@ -1,7 +1,6 @@
 # custom
-service/automation
-service/shorts
-service/tts
+module_shorts
+module_automation
 common/commonselenium.py
 common/commoncrawling.py
 

@@ -24,7 +24,7 @@ import config
 from auth import token_required
 from models import FileModel
 
-routes_common = Blueprint("routes_common", __name__)
+from . import routes_common
 
 
 @routes_common.route("/")

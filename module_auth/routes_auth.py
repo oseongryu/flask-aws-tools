@@ -14,7 +14,7 @@ from flask import (
 
 from auth import token_required
 
-routes_auth = Blueprint("routes_auth", __name__)
+from . import routes_auth
 
 
 @routes_auth.route("/api/auth", methods=["POST"])

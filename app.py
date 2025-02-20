@@ -44,15 +44,15 @@ logFileName = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
 routes_items = os.getenv("ROUTES_ITEM", "").split(",")
 
 
-from routes.routes_auth import routes_auth
-from routes.routes_common import routes_common
+from module_auth.routes_auth import routes_auth
+from module_common.routes_common import routes_common
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 
 for routes_item in routes_items:
     if "shorts" in routes_item:
 
-        from routes.routes_shorts import routes_shorts
+        from module_shorts.routes_shorts import routes_shorts
 
         app.register_blueprint(routes_shorts)
 
@@ -76,7 +76,7 @@ for routes_item in routes_items:
             db = sqlite3.connect(DATABASE, check_same_thread=False)
             app.db = db
     elif "aws" in routes_item:
-        from routes.routes_aws import routes_aws
+        from module_aws.routes_aws import routes_aws
 
         app.register_blueprint(routes_aws)
 
