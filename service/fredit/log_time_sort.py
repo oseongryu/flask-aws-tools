@@ -4,25 +4,37 @@ import posixpath
 import re
 from datetime import datetime
 
-# 현재 날짜와 시간을 가져옵니다.
+# 현재 날짜와 시간
 now = datetime.now()
 
-targets = ["RSL_MSG=기타 오류"]
+# 찾고자 하는 로그의 조건 배열(OR 조건)안의 배열(AND 조건)로 구성 
+target_list = [
+  ["#14299", "curDd===4"]
+, ["#14231", "37311"] 
+]
 ex_targets = []
 
 output_log_path = posixpath.join(os.path.expanduser("~"), "fredit_log")
 output_file_name = now.strftime("%Y%m%d%H%M%S") + ".txt"
 log_paths = [posixpath.join(output_log_path, f"was{i}") for i in range(1, 5)]
 
-
-def check_all_targets_satisfied(line):
+def check_all_targets_satisfied(line, target_data):
     # 모든 조건이 True인지 확인
-    return all(condition in line for condition in targets)
+    return all(condition in line for condition in target_data)
 
+def check_any_targets_satisfied(line, target_data):
+    return any(condition in line for condition in target_data)
 
 def check_any_ex_targets_satisfied(line):
     return any(condition in line for condition in ex_targets)
 
+def check_targets_satisfied(line):
+    result = False
+    for target_data in target_list:
+        result = check_all_targets_satisfied(line, target_data)
+        if(result == True):
+            break
+    return result
 
 # 로그 파일들에서 로그 라인을 추출
 log_lines = []
@@ -44,7 +56,7 @@ for log_path in log_paths:
                     if match:
                         date_obj = datetime.strptime(line[:12], "%H:%M:%S.%f")
                         if check_any_ex_targets_satisfied(line) == False:
-                            if check_all_targets_satisfied(line):
+                            if check_targets_satisfied(line):
                                 # line = line.split("fredit-token")[1].replace(": ", "")
                                 log_lines.append((date_obj, line))
 

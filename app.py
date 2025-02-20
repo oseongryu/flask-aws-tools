@@ -18,19 +18,20 @@ from flask import (
 import common.commonfunction as cmmfun
 import config
 from common.commonlogging import CommonLogging
-from routes.routes_auth import routes_auth
-from routes.routes_common import routes_common
+
+load_dotenv()
 
 sys.path.append("./common")
 sys.path.append("./service")
 
-template_folder_name = "dist"
+template_folder_name = "views" # # views, dist
+db_name = "sqlite"
 views_folder = os.path.join(os.path.dirname(__file__), ".", template_folder_name)
 
-# app = Flask(__name__, template_folder=template_folder_name, static_url_path="/static", static_folder="views/static")
-app = Flask(__name__, template_folder="dist", static_url_path="/static", static_folder="dist/static")
-app.register_blueprint(routes_common)
-app.register_blueprint(routes_auth)
+if template_folder_name == "views":
+    app = Flask(__name__, template_folder=template_folder_name, static_url_path="/static", static_folder="views/static")
+else:
+    app = Flask(__name__, template_folder="dist", static_url_path="/static", static_folder="dist/static")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 cmmfun.make_folder(config.PRJ_AUTO_PATH)
 cmmfun.make_folder(config.PRJ_AUTO_LOG_PATH)
@@ -38,12 +39,16 @@ logFileName = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
 # log = CommonLogging(logFileName)
 # app.logger = log.logger
 
-load_dotenv()
 
 # Load and parse the array from the .env file
 routes_items = os.getenv("ROUTES_ITEM", "").split(",")
 
-db_name = "mysql"
+
+from routes.routes_auth import routes_auth
+from routes.routes_common import routes_common
+app.register_blueprint(routes_common)
+app.register_blueprint(routes_auth)
+
 for routes_item in routes_items:
     if "shorts" in routes_item:
 
@@ -88,7 +93,6 @@ def create_routes():
 
                 if "/includes" not in route_path:
                     app.add_url_rule(route_path, route_path, route_func)
-
 
 create_routes()
 
