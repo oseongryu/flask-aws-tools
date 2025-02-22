@@ -24,14 +24,14 @@ load_dotenv()
 sys.path.append("./common")
 sys.path.append("./service")
 
-template_folder_name = "views" # # views, dist
+template_folder_name = "dist" # # views, dist
 db_name = "sqlite"
 views_folder = os.path.join(os.path.dirname(__file__), ".", template_folder_name)
 
 if template_folder_name == "views":
     app = Flask(__name__, template_folder=template_folder_name, static_url_path="/static", static_folder="views/static")
 else:
-    app = Flask(__name__, template_folder="dist", static_url_path="/static", static_folder="dist/static")
+    app = Flask(__name__, template_folder="dist", static_url_path="/v3-admin-vite", static_folder="dist")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 cmmfun.make_folder(config.PRJ_AUTO_PATH)
 cmmfun.make_folder(config.PRJ_AUTO_LOG_PATH)
