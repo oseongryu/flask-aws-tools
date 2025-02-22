@@ -1,8 +1,6 @@
 # custom
 module_shorts
-module_automation
-common/commonselenium.py
-common/commoncrawling.py
+# module_automation
 
 .DS_Store
 geckodriver
