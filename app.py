@@ -24,20 +24,15 @@ load_dotenv()
 sys.path.append("./common")
 sys.path.append("./service")
 
-template_folder_name = "dist" # # views, dist
+template_folder_name = "dist"  # views, dist
 db_name = "sqlite"
 views_folder = os.path.join(os.path.dirname(__file__), ".", template_folder_name)
 
 if template_folder_name == "views":
     app = Flask(__name__, template_folder=template_folder_name, static_url_path="/static", static_folder="views/static")
 else:
-    app = Flask(__name__, template_folder="dist", static_url_path="/v3-admin-vite", static_folder="dist")
+    app = Flask(__name__, template_folder="dist", static_url_path="/", static_folder="dist")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-cmmfun.make_folder(config.PRJ_AUTO_PATH)
-cmmfun.make_folder(config.PRJ_AUTO_LOG_PATH)
-logFileName = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
-# log = CommonLogging(logFileName)
-# app.logger = log.logger
 
 
 # Load and parse the array from the .env file
@@ -46,12 +41,17 @@ routes_items = os.getenv("ROUTES_ITEM", "").split(",")
 
 from module_auth.routes_auth import routes_auth
 from module_common.routes_common import routes_common
+
 app.register_blueprint(routes_common)
 app.register_blueprint(routes_auth)
 
 for routes_item in routes_items:
     if "shorts" in routes_item:
-
+        cmmfun.make_folder(config.PRJ_AUTO_PATH)
+        cmmfun.make_folder(config.PRJ_AUTO_LOG_PATH)
+        logFileName = os.path.join(config.PRJ_AUTO_LOG_PATH, "shorts.log")
+        log = CommonLogging(logFileName)
+        app.logger = log.logger
         from module_shorts.routes_shorts import routes_shorts
 
         app.register_blueprint(routes_shorts)
@@ -94,7 +94,8 @@ def create_routes():
                 if "/includes" not in route_path:
                     app.add_url_rule(route_path, route_path, route_func)
 
+
 create_routes()
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8091)
+    app.run(debug=True, host="0.0.0.0", port=8000)

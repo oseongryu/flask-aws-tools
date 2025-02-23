@@ -1,6 +1,7 @@
 # custom
 module_shorts
 # module_automation
+.idea
 
 .DS_Store
 geckodriver
