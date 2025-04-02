@@ -30,7 +30,7 @@ aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 
 folderName = "was_log"
-foldertime = "2024/12/17/"
+foldertime = "2025/03/27/"
 folder = f"{alb_was_path}" + "/" + foldertime
 localPath = os.path.expanduser("~") + "/" + folderName
 # pip install boto3
@@ -38,7 +38,7 @@ localPath = os.path.expanduser("~") + "/" + folderName
 make_folder(localPath)
 
 # lists = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
-lists = ["11"]
+lists = ["10"]
 for hourIndex in lists:
     s3 = boto3.resource("s3", region_name="ap-northeast-2", aws_access_key_id=f"{aws_access_key_id}", aws_secret_access_key=f"{aws_secret_access_key}")
     s3bucket = s3.Bucket(bucket)

@@ -14,15 +14,12 @@ from flask import (
     send_file,
     send_from_directory,
 )
-
-# pip install Pillow
-from PIL import Image
 from werkzeug.utils import secure_filename
 
 import common.commonfunction as cmmfun
 import config
 from auth import token_required
-from models import FileModel
+from module_common.models import FileModel
 
 from . import routes_common
 
@@ -89,10 +86,12 @@ def upload_file():
         temp_path = os.path.join(uploadPath, filename)
         file.save(temp_path)
 
-        # Convert the file to webp format
-        with Image.open(temp_path) as img:
-            webp_path = os.path.join(uploadPath, new_filename)
-            img.save(webp_path, "webp")
+        # # pip install Pillow
+        # from PIL import Image
+        # # Convert the file to webp format
+        # with Image.open(temp_path) as img:
+        #     webp_path = os.path.join(uploadPath, new_filename)
+        #     img.save(webp_path, "webp")
 
         # Remove the temporary file
         # os.remove(temp_path)
@@ -210,7 +209,7 @@ def python_exec():
         python_path = config.AUTOMATION_REMOVE_SCRIPT_PATH
 
     try:
-        result = run_process(python_env_path, python_path, args1)
+        result = run_async_process(python_env_path, python_path, args1)
         return jsonify(message=f"{result}"), 200
 
     except Exception as e:
@@ -229,6 +228,7 @@ def run_process(python_env_path, python_path, args1):
 
 def run_async_process(python_env_path, python_path, args1, waiting=False):
     try:
+        print(f"Executing script: {python_env_path} {python_path} {args1}")
         process = subprocess.Popen([python_env_path, python_path, args1], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if waiting:
             stdout, stderr = process.communicate()

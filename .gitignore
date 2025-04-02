@@ -1,8 +1,10 @@
 # custom
 module_shorts
+module_linkview
+*.http
 # module_automation
-.idea
 
+.idea
 .DS_Store
 geckodriver
 *.db

@@ -4,8 +4,8 @@ import sys
 from flask import Blueprint, jsonify, render_template, request, send_from_directory
 from werkzeug.utils import secure_filename
 
-import aws_deploy as aws_deploy
-import aws_was_ip as aws_was_ip
+import module_aws.aws.aws_deploy as aws_deploy
+import module_aws.aws.aws_was_ip as aws_was_ip
 from auth import token_required
 
 routes_aws = Blueprint("routes_aws", __name__)

@@ -62,6 +62,7 @@ source venv/Scripts/activate
 source venv/bin/activate
 
 # setting
+python -m pip install --upgrade pip
 pip freeze > requirements.txt
 pip install -r requirements.txt
 
@@ -73,12 +74,19 @@ pip install pillow
 pip install psutil
 pip install requests
 pip install boto3
-
-# mac
-brew install mysql pkg-config
 pip install mysqlclient
 pip install Flask-MySQLdb
 pip install mysql-connector-python
+pip install flask_sqlalchemy
+pip install pymysql
+# 암호화 사용시
+pip install cryptography
+
+# mac
+## mysql_native_password.so' (no such file)
+brew install mysql pkg-config
+brew uninstall mysql
+brew install mysql@8.4
 
 # Linux (Ubuntu)
 apt-get install -y pkg-config python-dev default-libmysqlclient-dev libssl-dev
