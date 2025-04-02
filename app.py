@@ -26,7 +26,6 @@ import common.commonfunction as cmmfun
 import config
 from common.commonlogging import CommonLogging
 from config import EnumDB, TemplateFolder
-from module_linkview.models import db
 
 # # before_request, after_request를 위해서 로깅 비활성화
 # log = logging.getLogger("werkzeug")
@@ -121,6 +120,8 @@ for routes_item in routes_items:
         # register_linkview_routes()
 
     elif "db" in routes_item:
+        from module_linkview.models import db
+
         if db_name == EnumDB.MARIADB.value:
             from flask_mysqldb import MySQL
 
