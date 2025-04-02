@@ -1,7 +1,7 @@
 # custom
 module_shorts
 module_linkview
-*.http
+# *.http
 # module_automation
 
 .idea

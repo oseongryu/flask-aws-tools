@@ -1,0 +1,142 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // "editor.formatOnType": false,
+    // "editor.formatOnSave": false,
+    // "editor.formatOnPaste": false,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.fontFamily": "D2Coding,  Consolas, 나눔고딕코딩, 'Courier New', monospace",
+    "editor.insertSpaces": true,
+    "editor.suggestSelection": "first",
+    "eslint.enable": true,
+    "eslint.options": { "configFile": "./.eslintrc" },
+    "explorer.autoReveal": true,
+    "git.autofetch": true,
+    "liveServer.settings.multiRootWorkspaceName": "packages",
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "workbench.iconTheme": "material-icon-theme",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "path-intellisense.extensionOnImport": true,
+    "files.associations": {
+      "*.json": "jsonc"
+    },
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "black",
+    "python.formatting.blackArgs": ["--line-length=240"],
+    "black-formatter.args": ["--line-length", "240"],
+    "isort.args": ["--profile", "black"],
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter",
+      "editor.formatOnType": true,
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+      }
+    },
+    "workbench.colorCustomizations": {
+      // blue
+      // vscdoe 전체 전경 색
+      "editor.background": "#000000",
+      // 맨 왼쪽 activityBar
+      "activityBar.background": "#000000",
+      // 사이드바(파일,폴더) 배경 색
+      "sideBar.background": "#25292f",
+      // 그룹 헤더 전체 배경 색
+      "editorGroupHeader.tabsBackground": "#1f242b",
+
+      // 사이드바 목록 선택 배경색 글자색
+      "list.hoverBackground": "#535353",
+      "list.activeSelectionBackground": "#09569d",
+      "list.activeSelectionForeground": "#06f7df",
+      "list.inactiveSelectionBackground": "#3a6a97",
+      "list.inactiveSelectionForeground": "#ffffff",
+
+      // 선택된 탭 배경색
+      "tab.activeBackground": "#225348",
+      "tab.activeForeground": "#06f7df",
+      // 비활성인 탭 배경색
+      "tab.inactiveBackground": "#1f242b",
+      "tab.inactiveForeground": "#ffffff",
+
+      // 상단 타이틀 배경색
+      "titleBar.activeBackground": "#0b856b",
+      "titleBar.inactiveBackground": "#086450",
+      // 상단 타이틀 글자색
+      "titleBar.activeForeground": "#ffffff",
+      "titleBar.inactiveForeground": "#ffffff",
+      // 하단 상태 배경색
+      "statusBar.background": "#0b856b"
+    },
+    // The Language locale to use when spell checking. "en", "en-US" and "en-GB" are currently supported by default.
+    "cSpell.language": "en",
+    // Controls the maximum number of spelling errors per document.
+    "cSpell.maxNumberOfProblems": 100,
+    // Controls the number of suggestions shown.
+    "cSpell.numSuggestions": 8,
+    // The minimum length of a word before checking it against a dictionary.
+    "cSpell.minWordLength": 4,
+    // Specify file types to spell check.
+    "cSpell.enabledFileTypes": {
+      "*": true,
+      "csharp": true,
+      "go": true,
+      "javascript": true,
+      "javascriptreact": true,
+      "markdown": true,
+      "php": true,
+      "plaintext": true,
+      "typescript": true,
+      "typescriptreact": true,
+      "yml": true,
+      "sql": true,
+      "python": true
+    },
+    // Enable / Disable the spell checker.
+    "cSpell.enabled": true,
+    // Display the spell checker status on the status bar.
+    "cSpell.showStatus": true,
+    // Words to add to dictionary for a workspace.
+    "cSpell.words": [
+      "fredit",
+      "cmmsel",
+      "cmmfun",
+      "xvfb",
+      "pyautogui",
+      "useragent",
+      "geckodriver",
+      "jsonify",
+      "dotenv",
+      "mysqldb"
+    ],
+    // Enable / Disable compound words like 'errormessage'
+    "cSpell.allowCompoundWords": true,
+    // Words to be ignored and not suggested.
+    "cSpell.ignoreWords": ["behaviour"],
+    // User words to add to dictionary.  Should only be in the user settings.
+    "cSpell.userWords": [],
+    // Specify paths/files to ignore.
+    "cSpell.ignorePaths": [
+      "node_modules", // this will ignore anything the node_modules directory
+      "**/node_modules", // the same for this one
+      "**/node_modules/**", // the same for this one
+      "node_modules/**", // Doesn't currently work due to how the current working directory is determined.
+      "vscode-extension", //
+      ".git", // Ignore the .git directory
+      "*.dll", // Ignore all .dll files.
+      "**/*.dll" // Ignore all .dll files
+    ],
+    // flagWords - list of words to be always considered incorrect
+    // This is useful for offensive words and common spelling errors.
+    // For example "hte" should be "the"`
+    "cSpell.flagWords": ["hte"],
+    // Set the delay before spell checking the document. Default is 50.
+    "cSpell.spellCheckDelayMs": 50
+  }
+}
